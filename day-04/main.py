@@ -1,7 +1,6 @@
 import sys
 import re
-from itertools import groupby
-
+from typing import List
 
 class Validator:
     def __init__(self):
@@ -44,8 +43,8 @@ class Validator:
         vs = [x.split('_')[1] for x in vs] # TODO: nicer?
         return set(vs)
 
-def get_passport(s: str) -> dict:
-    return dict([x.split(':') for x in s.split()])
+def get_passport(xs: List[str]) -> dict:
+    return dict([x.split(':') for x in xs])
 
 def is_valid1(passport: dict) -> bool:
     return len(Validator.required_keys() - passport.keys()) == 0
@@ -60,9 +59,8 @@ def is_valid2(passport: dict) -> bool:
 
 if __name__ == "__main__":
     with open(sys.argv[1], 'rt') as fp:
-        data = [l.strip() for l in fp.readlines()]
-        data = [list(g) for (is_sep, g) in groupby(data, key=lambda x: len(x) == 0) if not is_sep]
-        data = [get_passport(' '.join(x)) for x in data]
+        # [['key:value']]
+        data = [get_passport(x.split()) for x in fp.read().split('\n\n')]
 
     print(f'Part 1: {sum(map(is_valid1, data))}')
     print(f'Part 2: {sum(map(is_valid2, data))}')
