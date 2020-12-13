@@ -5,26 +5,30 @@ import Text.Printf (printf)
 
 type Path  = String
 type Grid  = [Path]
-type Coord = (Int, Int)
+type Pos   = (Int, Int)
 type Slope = (Int, Int)
 
 slopes :: [Slope]
 slopes = [(1, 1), (3, 1), (5, 1), (7, 1), (1, 2)]
 
--- TODO: maybe some folding?
-explore :: Grid -> Coord -> Slope -> Path
-explore grid (x, y) (dx, dy) = let
-    rows = length grid
-    cols = length (head grid)
-    in
-    if y < rows then
-        ((grid !! y) !! x) : explore grid ((x + dx) `mod` cols, y + dy) (dx, dy)
-    else []
+
+at :: Grid -> Pos -> Char
+at grid (i, j) = (grid !! j) !! i
+
+-- Compute the next position
+next :: Slope -> Int -> Pos -> Pos
+next (dx, dy) cols (x, y) = ((x + dx) `mod` cols, y + dy)
 
 count :: Grid -> Slope -> Int
-count grid (dx, dy) = length $ filter (== '#') trail
+count grid slope = length $ filter (== '#') trail
     where
-        trail = explore grid (dx, dy) (dx, dy)
+        rows = length grid
+        cols = length (head grid)
+        -- iterate `next` from (0, 0) to the bottom of the grid
+        -- tail because we want to skip (0, 0) from the final list
+        positions = tail $ takeWhile (\(x, y) -> y < rows) $ iterate (next slope cols) (0, 0)
+        -- get grid chars at those positions
+        trail = map (at grid) positions
 
 
 main :: IO ()
