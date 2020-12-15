@@ -1,72 +1,130 @@
 import sys
+from itertools import product, accumulate, repeat
+from functools import partial
 from typing import List, NewType
-
-GridType = NewType('GridType', List[str])
-
 
 class CellType:
     EMPTY    = 'L'
     OCCUPIED = '#'
     FLOOR    = '.'
 
-def adjacent(grid: GridType, i: int, j: int) -> list:
-    xs = []
+class Grid:
+    def __init__(self, grid: list):
+        self.__grid = grid
+        self.rows = len(grid)
+        self.cols = len(grid[0])
 
-    for p in [-1, 0, 1]:
-        for q in [-1, 0, 1]:
-            if p == 0 and q == 0:
-                continue
-            ip, jq = i + p, j + q
-            if 0 <= ip < len(grid) and 0 <= jq < len(grid[0]):
-                xs.append(grid[ip][jq])
-    return xs
+    def __getitem__(self, idx):
+        if isinstance(idx, int):
+            return self.__grid[idx]
+
+        if isinstance(idx, tuple):
+            i, j = idx
+            return self.__grid[i][j]
+
+    def __setitem__(self, idx, value):
+        if isinstance(idx, int):
+            self.__grid[idx] = value
+
+        if isinstance(idx, tuple):
+            i, j = idx
+            self.__grid[i][j] = value
+
+    def __eq__(self, other):
+        return self.__grid == other.__grid
+
+    def is_pos_valid(self, pos: tuple) -> bool:
+        row, col = pos
+        return 0 <= row < self.rows and \
+               0 <= col < self.cols
+
+    @property
+    def num_occupied(self):
+        return sum([x.count(CellType.OCCUPIED) for x in self.__grid])
+
+    def copy(self):
+        return Grid([
+            [self[i][j] for j in range(self.cols)]
+            for i in range(self.rows)
+        ])
 
 
-def step_p1(grid: GridType) -> GridType:
-    new_grid = [[grid[i][j] for j in range(len(grid[0]))] for i in range(len(grid))]
+# TODO: nicer rule repr?
+def step(grid: Grid, occ_thr: int, get_nearby: callable) -> Grid:
+    new_grid = grid.copy()
 
-    for i in range(len(grid)):
-        for j in range(len(grid[0])):
-            adj = adjacent(grid, i, j)
+    for i in range(grid.rows):
+        for j in range(grid.cols):
+            occ = get_nearby(grid, i, j).count(CellType.OCCUPIED)
 
-            if grid[i][j] == CellType.EMPTY:
-                if adj.count(CellType.OCCUPIED) == 0:
+            if grid[i][j] == CellType.EMPTY and occ == 0:
                     new_grid[i][j] = CellType.OCCUPIED
-
-            elif grid[i][j] == CellType.OCCUPIED:
-                if adj.count(CellType.OCCUPIED) >= 4:
+            elif grid[i][j] == CellType.OCCUPIED and occ >= occ_thr:
                     new_grid[i][j] = CellType.EMPTY
-
             else:
                 new_grid[i][j] = grid[i][j]
-
-        new_grid[i] = ''.join(new_grid[i])
 
     return new_grid
 
 
-def step_p2(grid: GridType) -> GridType:
-    pass
+def smaller_fov(grid: Grid, i: int, j: int) -> list:
+    pos = (
+        (i + p, j + q) for p, q in product([-1, 0, 1], repeat=2) if not p == q == 0
+    )
+    return [grid[p][q] for p, q in filter(grid.is_pos_valid, pos)]
 
 
-def stabilize(grid: GridType, step_func: callable) -> GridType:
-    while True:
-        new_grid = step_func(grid)
-        if new_grid == grid:
-            return grid
-        grid = new_grid
+# TODO: nicer?
+def larger_fov(grid: Grid, i: int, j: int) -> list:
+    xs = []
 
-    # unreachable
-    assert False
+    pos = [(p, q) for p, q in product([-1, 0, 1], repeat=2) if not p == q == 0]
+
+    for p, q in pos:
+        k = 1
+
+        while True:
+            ip, jq = i + k * p, j + k * q
+
+            if not grid.is_pos_valid((ip, jq)):
+                break
+
+            # stop at first non-floor
+            if grid[ip][jq] != CellType.FLOOR:
+                xs.append(grid[ip][jq])
+                break
+
+            k += 1
+
+    return xs
 
 
-def count_occupied(grid: GridType) -> int:
-    return ''.join(grid).count(CellType.OCCUPIED)
+def until_equilibrium(it):
+    def __no_repeat(prev, curr):
+        if prev == curr:
+            raise StopIteration
+        else:
+            return curr
+    return accumulate(it, __no_repeat)
+
+
+def iterate(f, x):
+    return accumulate(repeat(x), lambda fx, _: f(fx))
+
+
+def stabilize(grid: Grid, step_func: callable) -> Grid:
+    *_, last = until_equilibrium(iterate(step_func, grid))
+    return last
 
 
 if __name__ == "__main__":
     with open(sys.argv[1], 'rt') as fp:
-        grid = [l.strip() for l in fp.readlines()]
+        grid = Grid([l.strip() for l in fp.readlines()])
 
-    print(f'Part 1: {count_occupied(stabilize(grid, step_p1))}')
-    # print(f'Part 1: {count_occupied(stabilize(grid, step_p2))}')
+    # :: Grid -> Grid
+    step_p1 = partial(step, occ_thr=4, get_nearby=smaller_fov)
+    print(f'Part 1: {stabilize(grid, step_p1).num_occupied}')
+
+    # :: Grid -> Grid
+    step_p2 = partial(step, occ_thr=5, get_nearby=larger_fov)
+    print(f'Part 1: {stabilize(grid, step_p2).num_occupied}')
