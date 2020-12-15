@@ -1,7 +1,8 @@
 import sys
-from itertools import product, accumulate, repeat
 from functools import partial
-from typing import List, NewType
+from itertools import takewhile
+
+from functional import *
 
 class CellType:
     EMPTY    = 'L'
@@ -50,70 +51,57 @@ class Grid:
 
 
 # TODO: nicer rule repr?
-def step(grid: Grid, occ_thr: int, get_nearby: callable) -> Grid:
+def step(grid: Grid, occ_thr: int, count_occ: callable) -> Grid:
     new_grid = grid.copy()
 
     for i in range(grid.rows):
         for j in range(grid.cols):
-            occ = get_nearby(grid, i, j).count(CellType.OCCUPIED)
+            occ = count_occ(grid, i, j)
 
             if grid[i][j] == CellType.EMPTY and occ == 0:
                     new_grid[i][j] = CellType.OCCUPIED
+
             elif grid[i][j] == CellType.OCCUPIED and occ >= occ_thr:
                     new_grid[i][j] = CellType.EMPTY
+
             else:
                 new_grid[i][j] = grid[i][j]
 
     return new_grid
 
 
-def smaller_fov(grid: Grid, i: int, j: int) -> list:
-    pos = (
-        (i + p, j + q) for p, q in product([-1, 0, 1], repeat=2) if not p == q == 0
-    )
-    return [grid[p][q] for p, q in filter(grid.is_pos_valid, pos)]
+def occ_small_fov(grid: Grid, i: int, j: int) -> list:
+    xs = ((i + p, j + q) for p, q in cartesian([-1, 0, 1]) if not p == q == 0)
+    xs = filter(lambda p: grid.is_pos_valid(p) and grid[p] == CellType.OCCUPIED, xs)
+
+    return len(list(xs))
 
 
-# TODO: nicer?
-def larger_fov(grid: Grid, i: int, j: int) -> list:
-    xs = []
+# TODO: more functional?
+def occ_large_fov(grid: Grid, i: int, j: int) -> list:
+    occ = 0
+    pqs = [(p, q) for p, q in cartesian([-1, 0, 1]) if not p == q == 0]
 
-    pos = [(p, q) for p, q in product([-1, 0, 1], repeat=2) if not p == q == 0]
-
-    for p, q in pos:
+    for p, q in pqs:
         k = 1
-
         while True:
             ip, jq = i + k * p, j + k * q
 
             if not grid.is_pos_valid((ip, jq)):
                 break
 
-            # stop at first non-floor
+            # don't go further first non-floor cells
             if grid[ip][jq] != CellType.FLOOR:
-                xs.append(grid[ip][jq])
+                occ += (grid[ip][jq] == CellType.OCCUPIED)
                 break
 
             k += 1
 
-    return xs
+    return occ
 
 
-def until_equilibrium(it):
-    def __no_repeat(prev, curr):
-        if prev == curr:
-            raise StopIteration
-        else:
-            return curr
-    return accumulate(it, __no_repeat)
-
-
-def iterate(f, x):
-    return accumulate(repeat(x), lambda fx, _: f(fx))
-
-
-def stabilize(grid: Grid, step_func: callable) -> Grid:
-    *_, last = until_equilibrium(iterate(step_func, grid))
+def get_final_grid(grid: Grid, step_func: callable) -> Grid:
+    *_, last = until(no_change, iterate(step_func, grid))
     return last
 
 
@@ -122,9 +110,9 @@ if __name__ == "__main__":
         grid = Grid([l.strip() for l in fp.readlines()])
 
     # :: Grid -> Grid
-    step_p1 = partial(step, occ_thr=4, get_nearby=smaller_fov)
-    print(f'Part 1: {stabilize(grid, step_p1).num_occupied}')
+    step_p1 = partial(step, occ_thr=4, count_occ=occ_small_fov)
+    print(f'Part 1: {get_final_grid(grid, step_p1).num_occupied}')
 
     # :: Grid -> Grid
-    step_p2 = partial(step, occ_thr=5, get_nearby=larger_fov)
-    print(f'Part 1: {stabilize(grid, step_p2).num_occupied}')
+    step_p2 = partial(step, occ_thr=5, count_occ=occ_large_fov)
+    print(f'Part 1: {get_final_grid(grid, step_p2).num_occupied}')

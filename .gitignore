@@ -1,10 +1,11 @@
-## Rust
+# generic
+.vscode/
 
+# Rust
 **/target/
 Cargo.lock
 **/*.rs.bk
 
-
-## Python
+# Python
 *.py[cod]
 __pycache__/
