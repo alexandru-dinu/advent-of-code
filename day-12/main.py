@@ -33,24 +33,27 @@ def move_ship(from_pos: tuple, from_ori: tuple, cmds: list) -> tuple:
     return posX, posY
 
 
-def move_ship_complex(p: complex, o: complex, cmds: list) -> tuple:
+def move_ship_complex(cmds, pos, ori, use_waypoint: bool) -> complex:
     dirs = {'N': +1j, 'S': -1j, 'E': +1, 'W': -1}
 
     for cmd, n in cmds:
         if cmd == 'F':
-            p += o * n
+            pos += n * ori
         elif cmd == 'L':
-            o *= 1j ** (n//90)
+            ori *= 1j ** (n//90)
         elif cmd == 'R':
-            o *= 1j ** (-n//90)
+            ori *= 1j ** (-n//90) # or 4 - n//90 to make use of the L-rot
         else:
-            p += n * dirs[cmd]
+            if use_waypoint:
+                ori += n * dirs[cmd] # move waypoint
+            else:
+                pos += n * dirs[cmd] # move self
 
-    return p.real, p.imag
+    return pos
 
 
-def mh(p: tuple):
-    return abs(p[0]) + abs(p[1])
+def mh(x, y):
+    return abs(x) + abs(y)
 
 
 if __name__ == "__main__":
@@ -59,8 +62,11 @@ if __name__ == "__main__":
         cmds = [re.match(r'([NSEWLRF])(\d+)', c).groups() for c in cmds]
         cmds = [(d, int(n)) for (d, n) in cmds]
 
-    pos = move_ship(from_pos=(0,0), from_ori=(1, 0), cmds=cmds)
-    print(f'Part 1: {mh(pos)}')
+    px, py = move_ship(from_pos=(0,0), from_ori=(1, 0), cmds=cmds)
+    print(f'Part 1: {mh(px, py)}')
 
-    pos = move_ship_complex(p=0+0j, o=1+0j, cmds=cmds)
-    print(f'Part 1 (using complex numbers): {mh(pos)}')
+    p = move_ship_complex(cmds, pos=0+0j, ori=1+0j, use_waypoint=False)
+    print(f'Part 1 (using complex numbers): {mh(p.real, p.imag)}')
+
+    p = move_ship_complex(cmds, pos=0+0j, ori=10+1j, use_waypoint=True)
+    print(f'Part 2 (using complex numbers): {mh(p.real, p.imag)}')
