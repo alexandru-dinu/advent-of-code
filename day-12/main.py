@@ -2,34 +2,55 @@ import re
 import sys
 
 
-class Ship:
-    __turns = [(1, 0), (0, 1), (-1, 0), (0, -1)]
+def move_ship(from_pos: tuple, from_ori: tuple, cmds: list) -> tuple:
+    turns = [(1, 0), (0, 1), (-1, 0), (0, -1)]
 
-    def __init__(self, pos, ori):
-        self.posX, self.posY = pos
-        self.oriX, self.oriY = ori
+    posX, posY = from_pos
+    oriX, oriY = from_ori
 
-    def move(self, cmd, num):
+    for cmd, n in cmds:
         if cmd == 'F':
-            self.posX += self.oriX * num
-            self.posY += self.oriY * num
+            posX += oriX * n
+            posY += oriY * n
 
         if cmd == 'N':
-            self.posY += num
+            posY += n
         if cmd == 'S':
-            self.posY -= num
+            posY -= n
         if cmd == 'E':
-            self.posX += num
+            posX += n
         if cmd == 'W':
-            self.posX -= num
+            posX -= n
 
         # can only have {90, 180, 270}
-        num //= 90
-        i = self.__turns.index((self.oriX, self.oriY))
+        n //= 90
+        i = turns.index((oriX, oriY))
         if cmd == 'L':
-            self.oriX, self.oriY = self.__turns[(i + num) % 4]
+            oriX, oriY = turns[(i + n) % 4]
         if cmd == 'R':
-            self.oriX, self.oriY = self.__turns[(i + 4-num) % 4]
+            oriX, oriY = turns[(i + 4-n) % 4]
+
+    return posX, posY
+
+
+def move_ship_complex(p: complex, o: complex, cmds: list) -> tuple:
+    dirs = {'N': +1j, 'S': -1j, 'E': +1, 'W': -1}
+
+    for cmd, n in cmds:
+        if cmd == 'F':
+            p += o * n
+        elif cmd == 'L':
+            o *= 1j ** (n//90)
+        elif cmd == 'R':
+            o *= 1j ** (-n//90)
+        else:
+            p += n * dirs[cmd]
+
+    return p.real, p.imag
+
+
+def mh(p: tuple):
+    return abs(p[0]) + abs(p[1])
 
 
 if __name__ == "__main__":
@@ -38,9 +59,8 @@ if __name__ == "__main__":
         cmds = [re.match(r'([NSEWLRF])(\d+)', c).groups() for c in cmds]
         cmds = [(d, int(n)) for (d, n) in cmds]
 
-    ship = Ship(pos=(0, 0), ori=(1, 0))
+    pos = move_ship(from_pos=(0,0), from_ori=(1, 0), cmds=cmds)
+    print(f'Part 1: {mh(pos)}')
 
-    for cmd, num in cmds:
-        ship.move(cmd, num)
-
-    print(f'Part 1: {abs(ship.posX) + abs(ship.posY)}')
+    pos = move_ship_complex(p=0+0j, o=1+0j, cmds=cmds)
+    print(f'Part 1 (using complex numbers): {mh(pos)}')
