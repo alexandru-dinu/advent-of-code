@@ -53,7 +53,7 @@ fn solve2(xs: &Vec<i32>) -> Option<i32> {
 fn main() {
     let input_file = env::args().nth(1).expect("Error with input file!");
     let input = fs::read_to_string(&input_file).unwrap();
-    let xs :Vec<i32> = input.split('\n')
+    let xs: Vec<i32> = input.split('\n')
                   .filter(|x| !x.is_empty())
                   .map(|x| x.parse::<i32>().unwrap())
                   .collect();
