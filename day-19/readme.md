@@ -1,3 +1,3 @@
 - [x] enumerate all possible strings given a starting rule
 - [ ] write a consumer; match iff consumes all
-- [ ] use a high-level parser for a given grammar (e.g. Lark)
+- [x] use a high-level parser for a given grammar (e.g. Lark)
