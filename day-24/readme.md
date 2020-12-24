@@ -1,0 +1,2 @@
+- [x] hextiles: https://www.redblobgames.com/grids/hexagons/
+- [ ] commutative composition?
