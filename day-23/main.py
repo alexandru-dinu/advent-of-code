@@ -21,92 +21,99 @@ class Node:
 
     __repr__ = __str__
 
-def show(h):
-    cur = h
-    while cur.next != h:
-        print(cur, end=' -> ')
-        cur = cur.next
-    print(cur, end=f' => {h}')
+class Env:
+    def __init__(self, xs):
+        self.val2node = {}
+        self.head = self.__mklist(xs)
+        self.min = min(xs)
+        self.max = max(xs)
+        assert len(self.val2node) == len(xs)
+
+    def __mklist(self, xs: list) -> Node:
+        head, *tail = xs
+        head = Node(head, is_head=True)
+        self.val2node[head.val] = head
+
+        cur = head
+        for x in tail:
+            node = Node(x)
+            self.val2node[x] = node
+            cur.next = node
+            cur = cur.next
+        cur.next = head
+
+        return head
+
+    def take(self, x0: int, n: int):
+        out = []
+        node = self.val2node[x0]
+        for _ in range(n):
+            out.append(node.val)
+            node = node.next
+        return out
+
+    def show(self) -> None:
+        cur = self.head
+        while cur.next != self.head:
+            print(cur, end=' -> ')
+            cur = cur.next
+        print(cur)
+
+    def step(self):
+        def _find_dest(x: Node, xs: Node, tri: list) -> Node:
+            # key thing: find max less than x which is not in the picked-up 3 (tri)
+            if x.val == 1:
+                c = self.max
+                while c in tri:
+                    c -= 1
+                return self.val2node[c]
+
+            c = x.val - 1
+
+            while c in tri:
+                c -= 1
+                # not found here => it's the max from the rest
+                if c < self.min:
+                    return self.val2node[self.max]
+
+            return self.val2node[c]
 
 
-def mklist(xs):
-    head, *tail = xs
+        def _inner(head: Node) -> Node:
+            # h_old -> (. -> . -> tri ) -> h_new -> ...
+            h_old = head
+            tri   = h_old.next.next.next
+            h_new = tri.next
 
-    head = Node(head, is_head=True)
+            dest = _find_dest(h_old, tri.next,
+                tri=self.take(h_old.next.val, n=3))
+            tri.next   = dest.next
+            dest.next  = h_old.next
+            h_old.next = h_new
 
-    cur = head
-    for x in tail:
-        cur.next = Node(x)
-        cur = cur.next
-    cur.next = head
+            h_old.is_head = False
+            h_new.is_head = True
 
-    return head
+            return h_new
 
+        self.head = _inner(self.head)
+        return self
 
-def find_dest(h, sl):
-    # TODO: extremely slow...
-    c = sl
-
-    max_ = Node(-1)
-    while not c.is_head:
-        max_ = max(max_, c)
-        c = c.next
-
-    if h.val == 1:
-        return max_
-
-    for i in range(h.val - 1, 0, -1):
-        c = sl
-
-        while not c.is_head:
-            if i == c.val:
-                return c
-            c = c.next
-
-    return max_
-
-
-def step(head):
-    h1 = head
-    tri = h1.next.next.next
-    h2 = tri.next
-    d = find_dest(h1, tri.next)
-    tri.next = d.next
-    d.next = h1.next
-    h1.next = h2
-    h1.is_head = False
-    h2.is_head = True
-
-    return h2
-
-
-def iterate(xs, n):
-    head = mklist(xs)
-    for _ in trange(n):
-        head = step(head)
-    return head
-
-
-def take(head, x0, n):
-    c = head
-    while c.val != x0:
-        c = c.next
-    c = c.next
-
-    out = ''
-    for _ in range(n):
-        out += str(c.val)
-        c = c.next
-    return out
+    def iterate(self, n: int):
+        for _ in trange(n):
+            # self.show()
+            self.step()
+            # input()
+        return self
 
 
 if __name__ == "__main__":
     with open(sys.argv[1], 'rt') as fp:
         xs = list(map(int, fp.read().strip()))
 
-    head = iterate(xs, n=100)
-    print(f'Part 1: {take(head, x0=1, n=len(xs) - 1)}')
+    out = Env(xs).iterate(100).take(x0=1, n=len(xs))[1:]
+    print(f'Part 1: {"".join(map(str, out))}')
 
     xs = [*xs, *range(max(xs) + 1, 1_000_000 + 1)]
-    head = iterate(xs, n=10_000_000)
-    print(f'Part 2: {take(head, x0=1, n=2)}')
+    a, b = Env(xs).iterate(10_000_000).take(x0=1, n=3)[1:]
+    print(f'Part 2: {a * b}')
