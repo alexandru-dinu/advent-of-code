@@ -18,10 +18,10 @@ def zip_with(f, xs, ys):
 def neighbours(cell) -> set:
     dim = len(cell)
     ns = [
-            zip_with(lambda x, y: x + y, cell, delta)
-            for delta in product([-1, 0, 1], repeat=dim)
-            if delta != (0,) * dim
-            ]
+        zip_with(lambda x, y: x + y, cell, delta)
+        for delta in product([-1, 0, 1], repeat=dim)
+        if delta != (0,) * dim
+    ]
     return set(ns)
 
 
@@ -35,8 +35,9 @@ def will_be_active(cell, pocket):
 
 
 def step(pocket):
-    return set(filter(lambda cell: will_be_active(cell, pocket),
-        flatmap(lambda cell: neighbours(cell), pocket)))
+    expanded = flatmap(lambda cell: neighbours(cell), pocket)
+    active   = filter(lambda cell: will_be_active(cell, pocket), expanded)
+    return set(active)
 
 
 def get_pocket(filename, dims=3):
