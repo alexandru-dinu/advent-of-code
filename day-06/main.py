@@ -3,7 +3,7 @@ from typing import List
 from collections import Counter
 
 
-def group_yes_count(xs: List[str]) -> bool:
+def group_yes_count(xs: List[str]) -> int:
     num_persons = len(xs)
 
     yes_counter = Counter()

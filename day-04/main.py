@@ -3,27 +3,31 @@ import re
 from typing import List
 
 class Validator:
-    def __init__(self):
-        pass
-
+    @staticmethod
     def validate_byr(x: str) -> bool:
         return 1920 <= int(x) <= 2002
 
+    @staticmethod
     def validate_iyr(x: str) -> bool:
         return 2010 <= int(x) <= 2020
 
+    @staticmethod
     def validate_eyr(x: str) -> bool:
         return 2020 <= int(x) <= 2030
 
+    @staticmethod
     def validate_hcl(x: str) -> bool:
         return re.match(r'^#([0-9a-f]{6})$', x) is not None
 
+    @staticmethod
     def validate_ecl(x: str) -> bool:
         return x in {'amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth'}
 
+    @staticmethod
     def validate_pid(x: str) -> bool:
         return len(x) == 9
 
+    @staticmethod
     def validate_hgt(x: str) -> bool:
         match = re.match(r'([0-9]+)(in|cm)', x)
         if match is None:
@@ -38,6 +42,7 @@ class Validator:
 
         return False
 
+    @staticmethod
     def required_keys() -> set:
         vs = [x for x in dir(Validator) if x.startswith('validate_')]
         vs = [x.split('_')[1] for x in vs] # TODO: nicer?
