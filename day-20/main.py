@@ -1,100 +1,72 @@
+import re
 import sys
+import pickle
 import numpy as np
-from typing import List, Tuple, Set
-from functools import partial
-from itertools import combinations, product
-from collections import deque, namedtuple, defaultdict
+
+from assemble import Tile, GridT, get_chararray, print_chararray, all_transforms
 
 
-Tile = namedtuple('Tile', ['tid', 'border'])
-N, W, S, E = range(4)
+MONSTER = [
+    '                  # ',
+    '#    ##    ##    ###',
+    ' #  #  #  #  #  #   '
+]
 
 
-def encode(raw: str) -> Tuple[int]:
+def part1(grid: GridT) -> int:
     """
-    (N, W, S, E) encoding of border.
-    Raw tile string -> bit array -> get border -> to int
+    Product of the 4 corner ids.
     """
-    lines = raw.replace('.', '0').replace('#', '1').split('\n')
-    mat = np.array([list(line) for line in lines])
-
-    return tuple(map(lambda m: int(''.join(m), 2), [
-        mat[0, ::-1],  # n: r->l
-        mat[:, 0],     # w: u->d
-        mat[-1, :],    # s: l->r
-        mat[::-1, -1], # e: d->u
-    ]))
+    n = np.sqrt(len(grid)).astype(int)
+    return np.product([
+        grid[0, 0].tid,   grid[0, n-1].tid,
+        grid[n-1, 0].tid, grid[n-1, n-1].tid
+    ])
 
 
-def rbits(x: int, sz=10) -> int:
-    return int(bin(x)[2:].zfill(sz)[::-1], 2)
-
-def flipud(x: Tuple[int]) -> Tuple[int]:
-    return tuple(map(rbits, [x[S], x[W], x[N], x[E]]))
-
-def fliplr(x: Tuple[int]) -> Tuple[int]:
-    return tuple(map(rbits, [x[N], x[E], x[S], x[W]]))
-
-def rot(x: Tuple[int], k=1) -> Tuple[int]:
-    once = (x[E], x[N], x[W], x[S])
-    return once if k == 1 else rot(once, k - 1)
+def to_binary(x: np.ndarray) -> np.ndarray:
+    z = x.copy()
+    z[z != '#'] = '0'
+    z[z == '#'] = '1'
+    return z.astype(int)
 
 
-def all_transforms(m: Tuple[int]) -> Set[Tuple[int]]:
-    # all possible flips/rots
-    return {m, fliplr(m), flipud(m), *[rot(m, k) for k in range(1, 4)]}
+def convolve(x, k):
+    kh, kw = k.shape
+    xh, xw = x.shape
 
+    out = np.zeros((xh-kh+1, xw-kw+1))
 
-def matches_with(x: Tuple[int], y: Tuple[int]) -> List[int]:
-    out = []
-
-    if x[E] == y[W]:
-        out.append(E)
-
-    if x[N] == y[S]:
-        out.append(N)
-
-    if x[S] == y[N]:
-        out.append(S)
-
-    if x[W] == y[E]:
-        out.append(W)
+    for i in range(xh - kh + 1):
+        for j in range(xw - kw + 1):
+            patch = x[i:i+kh, j:j+kw]
+            out[i,j] = (patch * k).sum()
 
     return out
 
 
-def compat_table(tiles: List[Tile]) -> dict:
-    compat = defaultdict(lambda: defaultdict(lambda: set()))
+def part2(grid: GridT) -> int:
+    """
+    Count '#' that are not part of a sea monster.
+    """
+    img = Tile(tid=0, mat=get_chararray(grid, with_borders=False))
+    mask = to_binary(np.array([list(l) for l in MONSTER]))
 
-    for tile1, tile2 in combinations(tiles, 2):
-        xs = all_transforms(tile1.border)
-        ys = all_transforms(tile2.border)
-        for x, y in product(xs, ys):
-            for m in matches_with(x, y):
-                compat[tile1.tid][tile2.tid].add(m)
-                compat[tile2.tid][tile1.tid].add(m)
+    for t in all_transforms(img):
+        x = to_binary(t.mat)
+        c = convolve(x, mask)
+        n = c[c == mask.sum()].size
+        if n == 0:
+            continue
+        return x.sum() - n * mask.sum()
 
-    return compat
-
-
-def corner_ids(tiles: List[Tile]) -> List[int]:
-    compat = compat_table(tiles)
-    cids = [tid for tid, cs in compat.items() if len(cs) == 2]
-    assert len(cids) == 4, f"Expected to find 4 corners, but got {len(cids)}"
-    return cids
+    assert False
 
 
 if __name__ == "__main__":
-    with open(sys.argv[1], "rt") as fp:
-        tiles = fp.read().strip().split("\n\n")
+    with open(sys.argv[1], 'rb') as fp:
+        grid: GridT = pickle.load(fp)
 
-    tiles = [t.split(":\n") for t in tiles]
-    tiles = [Tile(tid=int(i.split()[1]), border=encode(t)) for i, t in tiles]
-    # print([(i, t.tid) for i,t in enumerate(tiles)])
-
-    # while True:
-    #     i = int(input())
-    #     is_corner_tile(tiles[i], tiles)
-    #     print('-' * 32)
-
-    print(f"Part 1: {np.product(corner_ids(tiles))}")
+    # print_chararray(get_chararray(grid))
+    print(f'Part 1: {part1(grid)}')
+    print(f'Part 2: {part2(grid)}')
