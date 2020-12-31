@@ -9,7 +9,8 @@ Cargo.lock
 # Python
 *.py[cod]
 __pycache__/
-.mypy_cache
+.mypy_cache/
 
 # Scala
+.metals/
 *.class
