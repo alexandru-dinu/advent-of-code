@@ -4,6 +4,7 @@ IN=input/input.txt
 
 run: Main.class $(IN)
 	scala -cp . Main $(IN)
+	$(MAKE) clean
 
 Main.class: Main.scala
 	scalac $^
