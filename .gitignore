@@ -14,3 +14,7 @@ __pycache__/
 # Scala
 .metals/
 *.class
+
+# Haskell
+*.hi
+*.o
