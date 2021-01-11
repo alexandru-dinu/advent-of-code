@@ -1,2 +1,2 @@
-- are the predicates short-circuited?
-- sort predicates by strictness?
+- [ ] are the predicates short-circuited?
+- [ ] sort predicates by strictness?
