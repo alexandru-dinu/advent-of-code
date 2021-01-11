@@ -2,11 +2,11 @@ IN=input/input.txt
 
 .PHONY: run clean
 
+Main: Main.hs
+	ghc -i../intcode --make -dynamic -o $@ $^
+
 Main.class: Main.scala
 	scalac $^
-
-Main: Main.hs
-	ghc --make -dynamic -o $@ $^
 
 clean:
 	rm -f Main *.o *.hi *.class
