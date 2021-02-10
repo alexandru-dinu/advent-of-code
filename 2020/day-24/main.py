@@ -6,12 +6,12 @@ from itertools import chain
 # https://www.redblobgames.com/grids/hexagons/
 POS = {
     #      dx  dy  dz
-    'ne': (+1,  0, -1),
-    'e' : (+1, -1,  0),
-    'se': ( 0, -1, +1),
-    'sw': (-1,  0, +1),
-    'w' : (-1, +1,  0),
-    'nw': ( 0, +1, -1)
+    "ne": (+1, 0, -1),
+    "e": (+1, -1, 0),
+    "se": (0, -1, +1),
+    "sw": (-1, 0, +1),
+    "w": (-1, +1, 0),
+    "nw": (0, +1, -1),
 }
 
 WHITE = 0
@@ -24,7 +24,7 @@ def parse(x: str) -> list:
 
     while len(x_) > 0:
         v = x_.pop(0)
-        if v in ['n', 's']:
+        if v in ["n", "s"]:
             v += x_.pop(0)
         y.append(v)
 
@@ -36,19 +36,19 @@ def tadd(t1, t2):
 
 
 def move(ys):
-    return reduce(tadd, [POS[y] for y in ys], (0,0,0))
+    return reduce(tadd, [POS[y] for y in ys], (0, 0, 0))
 
 
 def neighbours(x, y, z) -> set:
-    return {(x + dx, y + dy, z + dz) for (dx,dy,dz) in POS.values()}
+    return {(x + dx, y + dy, z + dz) for (dx, dy, dz) in POS.values()}
 
 
 def initialize_tiling(xs: list) -> dict:
-    tiles = defaultdict(lambda: WHITE) # white by default
+    tiles = defaultdict(lambda: WHITE)  # white by default
 
     for x in xs:
         pos = move(parse(x))
-        tiles[pos] = 1 - tiles[pos] # flip
+        tiles[pos] = 1 - tiles[pos]  # flip
 
     return dict(tiles)
 
@@ -64,7 +64,7 @@ def stays_black(tile: tuple, black_tiles: set) -> bool:
 
 def step(black_tiles: set) -> set:
     expanded = list(chain(*map(lambda t: neighbours(*t), black_tiles)))
-    return set(filter(lambda t: stays_black(t, black_tiles) , expanded))
+    return set(filter(lambda t: stays_black(t, black_tiles), expanded))
 
 
 def iterate(xs: list, n: int) -> set:
@@ -78,8 +78,8 @@ def iterate(xs: list, n: int) -> set:
 
 
 if __name__ == "__main__":
-    with open(sys.argv[1], 'rt') as fp:
-        xs = fp.read().strip().split('\n')
+    with open(sys.argv[1], "rt") as fp:
+        xs = fp.read().strip().split("\n")
 
-    print(f'Part 1: {sum(initialize_tiling(xs).values())}')
-    print(f'Part 2: {len(iterate(xs, n=100))}')
+    print(f"Part 1: {sum(initialize_tiling(xs).values())}")
+    print(f"Part 2: {len(iterate(xs, n=100))}")

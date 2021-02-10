@@ -5,7 +5,7 @@ sys.setrecursionlimit(10 * sys.getrecursionlimit())
 
 def play1(p1, p2):
     if not p1 or not p2:
-        return p1 or p2 # get non-empty
+        return p1 or p2  # get non-empty
 
     h1, *t1 = p1
     h2, *t2 = p2
@@ -17,7 +17,6 @@ def play1(p1, p2):
 
 
 def play2(p1, p2):
-
     def _inner(p1, p2, mem):
         state = hex(hash((tuple(p1), tuple(p2))))
         if state in mem:
@@ -48,19 +47,18 @@ def play2(p1, p2):
     return p
 
 
-
 def compute_score(win):
-    return sum([i*c for i,c in zip(range(1, len(win)+1), win[::-1])])
+    return sum([i * c for i, c in zip(range(1, len(win) + 1), win[::-1])])
 
 
 if __name__ == "__main__":
-    with open(sys.argv[1], 'rt') as fp:
-        p1, p2 = fp.read().strip().split('\n\n')
-        p1 = [int(c) for c in p1.split('\n')[1:]]
-        p2 = [int(c) for c in p2.split('\n')[1:]]
+    with open(sys.argv[1], "rt") as fp:
+        p1, p2 = fp.read().strip().split("\n\n")
+        p1 = [int(c) for c in p1.split("\n")[1:]]
+        p2 = [int(c) for c in p2.split("\n")[1:]]
 
     win = play1(p1, p2)
-    print(f'Part 1: {compute_score(win)}')
+    print(f"Part 1: {compute_score(win)}")
 
     win = play2(p1, p2)
-    print(f'Part 2: {compute_score(win)}')
+    print(f"Part 2: {compute_score(win)}")

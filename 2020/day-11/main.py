@@ -4,10 +4,12 @@ from itertools import takewhile
 
 from functional import *
 
+
 class CellType:
-    EMPTY    = 'L'
-    OCCUPIED = '#'
-    FLOOR    = '.'
+    EMPTY = "L"
+    OCCUPIED = "#"
+    FLOOR = "."
+
 
 class Grid:
     def __init__(self, grid: list):
@@ -36,18 +38,14 @@ class Grid:
 
     def is_pos_valid(self, pos: tuple) -> bool:
         row, col = pos
-        return 0 <= row < self.rows and \
-               0 <= col < self.cols
+        return 0 <= row < self.rows and 0 <= col < self.cols
 
     @property
     def num_occupied(self):
         return sum([x.count(CellType.OCCUPIED) for x in self.__grid])
 
     def copy(self):
-        return Grid([
-            [self[i][j] for j in range(self.cols)]
-            for i in range(self.rows)
-        ])
+        return Grid([[self[i][j] for j in range(self.cols)] for i in range(self.rows)])
 
 
 # TODO: nicer rule repr?
@@ -59,10 +57,10 @@ def step(grid: Grid, occ_thr: int, count_occ: callable) -> Grid:
             occ = count_occ(grid, i, j)
 
             if grid[i][j] == CellType.EMPTY and occ == 0:
-                    new_grid[i][j] = CellType.OCCUPIED
+                new_grid[i][j] = CellType.OCCUPIED
 
             elif grid[i][j] == CellType.OCCUPIED and occ >= occ_thr:
-                    new_grid[i][j] = CellType.EMPTY
+                new_grid[i][j] = CellType.EMPTY
 
             else:
                 new_grid[i][j] = grid[i][j]
@@ -92,7 +90,7 @@ def occ_large_fov(grid: Grid, i: int, j: int) -> list:
 
             # don't go further first non-floor cells
             if grid[ip][jq] != CellType.FLOOR:
-                occ += (grid[ip][jq] == CellType.OCCUPIED)
+                occ += grid[ip][jq] == CellType.OCCUPIED
                 break
 
             k += 1
@@ -106,13 +104,13 @@ def get_final_grid(grid: Grid, step_func: callable) -> Grid:
 
 
 if __name__ == "__main__":
-    with open(sys.argv[1], 'rt') as fp:
+    with open(sys.argv[1], "rt") as fp:
         grid = Grid([l.strip() for l in fp.readlines()])
 
     # :: Grid -> Grid
     step_p1 = partial(step, occ_thr=4, count_occ=occ_small_fov)
-    print(f'Part 1: {get_final_grid(grid, step_p1).num_occupied}')
+    print(f"Part 1: {get_final_grid(grid, step_p1).num_occupied}")
 
     # :: Grid -> Grid
     step_p2 = partial(step, occ_thr=5, count_occ=occ_large_fov)
-    print(f'Part 1: {get_final_grid(grid, step_p2).num_occupied}')
+    print(f"Part 1: {get_final_grid(grid, step_p2).num_occupied}")

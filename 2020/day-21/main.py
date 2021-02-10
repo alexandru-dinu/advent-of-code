@@ -4,6 +4,7 @@ from itertools import chain
 from collections import defaultdict, Counter
 from functools import reduce
 
+
 def backtrack(pool):
     def _inner(pool, acc):
         if None not in acc.values():
@@ -18,19 +19,19 @@ def backtrack(pool):
 
         return False
 
-    acc = {k: None for k,_ in pool}
+    acc = {k: None for k, _ in pool}
     _inner(pool, acc)
     return acc
 
 
 if __name__ == "__main__":
-    with open(sys.argv[1], 'rt') as fp:
-        xs = fp.read().strip().split('\n')
+    with open(sys.argv[1], "rt") as fp:
+        xs = fp.read().strip().split("\n")
 
-    r = re.compile(r'([\w ]+)\(contains (.*)\)')
+    r = re.compile(r"([\w ]+)\(contains (.*)\)")
 
     xs = [r.match(x).groups() for x in xs]
-    xs = [(k.split(), v.split(', ')) for k,v in xs]
+    xs = [(k.split(), v.split(", ")) for k, v in xs]
 
     foods = set(chain(*[x[0] for x in xs]))
     ags = set(chain(*[x[1] for x in xs]))
@@ -51,7 +52,7 @@ if __name__ == "__main__":
     for c_food, _ in xs:
         c.update(set(c_food) - ag_food)
 
-    print(f'Part 1: {sum(c.values())}')
+    print(f"Part 1: {sum(c.values())}")
 
-    ss = ','.join([x[1] for x in sorted(ag2food.items(), key=lambda x: x[0])])
-    print(f'Part 2: {ss}')
+    ss = ",".join([x[1] for x in sorted(ag2food.items(), key=lambda x: x[0])])
+    print(f"Part 2: {ss}")

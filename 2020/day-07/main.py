@@ -3,18 +3,20 @@ import re
 from typing import List
 from collections import defaultdict
 
-REGEX = re.compile(r'(\d) (\w+ \w+) (bags?)')
+REGEX = re.compile(r"(\d) (\w+ \w+) (bags?)")
+
 
 def parse_line(x: str) -> tuple:
-    src, dst = map(lambda l: l.strip(), x.split('bags contain'))
+    src, dst = map(lambda l: l.strip(), x.split("bags contain"))
 
-    if dst == 'no other bags.':
+    if dst == "no other bags.":
         return src, []
 
-    dst = [REGEX.match(l.strip()).groups() for l in dst.split(',')]
-    dst = [(int(l[0]), l[1]) for l in dst] # (n, color)
+    dst = [REGEX.match(l.strip()).groups() for l in dst.split(",")]
+    dst = [(int(l[0]), l[1]) for l in dst]  # (n, color)
 
     return src, dst
+
 
 def transpose(graph: dict) -> dict:
     t_graph = defaultdict(lambda: [])
@@ -24,6 +26,7 @@ def transpose(graph: dict) -> dict:
             t_graph[dst].append((n, src))
 
     return t_graph
+
 
 def count_parents(graph: dict, from_node: str) -> int:
     """Part 1"""
@@ -40,6 +43,7 @@ def count_parents(graph: dict, from_node: str) -> int:
     _inner(graph, from_node, acc)
 
     return len(acc)
+
 
 def count_children(graph: dict, from_node: str) -> int:
     """
@@ -59,7 +63,7 @@ def count_children(graph: dict, from_node: str) -> int:
 
 
 if __name__ == "__main__":
-    with open(sys.argv[1], 'rt') as fp:
+    with open(sys.argv[1], "rt") as fp:
         graph = dict([parse_line(l.strip()) for l in fp.readlines()])
 
     # make each inner bag point to parent

@@ -9,6 +9,7 @@ import pickle
 
 N, W, S, E = range(4)
 
+
 @dataclass
 class Tile:
     tid: int
@@ -20,10 +21,10 @@ class Tile:
 
 
 def read_input(file_path: str) -> List[Tile]:
-    with open(file_path, 'rt') as fp:
-        xs = fp.read().strip().split('\n\n')
+    with open(file_path, "rt") as fp:
+        xs = fp.read().strip().split("\n\n")
         xs = [x.split() for x in xs]
-        xs = [(int(x[1].strip(':')), x[2:]) for x in xs]
+        xs = [(int(x[1].strip(":")), x[2:]) for x in xs]
 
     return [Tile(tid=tid, raw=raw, margins=encode(raw)) for tid, raw in xs]
 
@@ -33,26 +34,34 @@ def encode(raw: List[str]) -> Tuple[int]:
     (N, W, S, E) encoding of margins.
     [string] -> [bits] -> margins -> to int.
     """
-    mat = [list(l.replace('.', '0').replace('#', '1')) for l in raw]
+    mat = [list(l.replace(".", "0").replace("#", "1")) for l in raw]
     mat = np.array(mat)
 
-    return tuple(map(lambda m: int(''.join(m), 2), [
-        mat[0, ::-1],  # n: r->l
-        mat[:, 0],     # w: u->d
-        mat[-1, :],    # s: l->r
-        mat[::-1, -1], # e: d->u
-    ]))
+    return tuple(
+        map(
+            lambda m: int("".join(m), 2),
+            [
+                mat[0, ::-1],  # n: r->l
+                mat[:, 0],  # w: u->d
+                mat[-1, :],  # s: l->r
+                mat[::-1, -1],  # e: d->u
+            ],
+        )
+    )
 
 
 def _rbits(x: int, sz=10) -> int:
     return int(bin(x)[2:].zfill(sz)[::-1], 2)
 
+
 def rot(x: Tuple[int], k=1) -> Tuple[int]:
     once = (x[E], x[N], x[W], x[S])
     return once if k == 1 else rot(once, k - 1)
 
+
 def flipud(x: Tuple[int]) -> Tuple[int]:
     return tuple(map(_rbits, [x[S], x[W], x[N], x[E]]))
+
 
 def fliplr(x: Tuple[int]) -> Tuple[int]:
     # return tuple(map(_rbits, [x[N], x[E], x[S], x[W]]))
@@ -62,12 +71,12 @@ def fliplr(x: Tuple[int]) -> Tuple[int]:
 def all_transforms(m: Tuple[int]) -> Set[Tuple[int]]:
     # all possible flips/rots
     return {
-        'id'    : m,
-        'rot1'  : rot(m, 1),
-        'rot2'  : rot(m, 2),
-        'rot3'  : rot(m, 3),
-        'fliplr': fliplr(m),
-        'flipud': flipud(m),
+        "id": m,
+        "rot1": rot(m, 1),
+        "rot2": rot(m, 2),
+        "rot3": rot(m, 3),
+        "fliplr": fliplr(m),
+        "flipud": flipud(m),
     }
 
 
@@ -90,6 +99,7 @@ def compat_table(tiles: List[Tile]) -> dict:
     """
     tid1 -> {transform -> [N/W/S/E]: tid2}
     """
+
     def _to_dict(d):
         if isinstance(d, defaultdict):
             d = {k: _to_dict(v) for k, v in d.items()}
@@ -150,8 +160,8 @@ def solve(grid, ori, tiles, compat, exc):
         if grid[0][i] is not None:
             continue
 
-        ms = next_on(grid[0][i-1], on={E}, compat=compat, exc=exc)
-        xs = {x for _,x in ms}
+        ms = next_on(grid[0][i - 1], on={E}, compat=compat, exc=exc)
+        xs = {x for _, x in ms}
         d = defaultdict(lambda: [])
         for t, x in ms:
             d[x].append(t)
@@ -172,14 +182,13 @@ def solve(grid, ori, tiles, compat, exc):
                 exc.remove(q.tid)
             return False
 
-
     # 3) fill first col (with s->n matching)
     for i in range(size):
         if grid[i][0] is not None:
             continue
 
-        ms = next_on(grid[i-1][0], on={S}, compat=compat, exc=exc)
-        xs = {x for _,x in ms}
+        ms = next_on(grid[i - 1][0], on={S}, compat=compat, exc=exc)
+        xs = {x for _, x in ms}
         d = defaultdict(lambda: [])
         for t, x in ms:
             d[x].append(t)
@@ -200,8 +209,6 @@ def solve(grid, ori, tiles, compat, exc):
                 exc.remove(q.tid)
         return False
 
-
-
     # 4) fill rest (with nw matching)
     for i in range(1, size):
         for j in range(1, size):
@@ -209,17 +216,17 @@ def solve(grid, ori, tiles, compat, exc):
                 continue
 
             d = defaultdict(lambda: [])
-            m1 = next_on(grid[i][j-1], on={E}, compat=compat, exc=exc)
-            xs1 = {x for _,x in m1}
+            m1 = next_on(grid[i][j - 1], on={E}, compat=compat, exc=exc)
+            xs1 = {x for _, x in m1}
             for t, x in m1:
                 d[x].append(t)
 
-            m2 = next_on(grid[i-1][j], on={S}, compat=compat, exc=exc)
-            xs2 = {x for _,x in m2}
+            m2 = next_on(grid[i - 1][j], on={S}, compat=compat, exc=exc)
+            xs2 = {x for _, x in m2}
             for t, x in m2:
                 d[x].append(t)
 
-            for m in (xs1 & xs2):
+            for m in xs1 & xs2:
                 for dt in d[m]:
                     q = tile_by_tid(m, tiles)
 
@@ -244,7 +251,7 @@ def backtrack(tiles: List[Tile]) -> np.array:
     """
     size = np.sqrt(len(tiles)).astype(int)
     grid = [[None for _ in range(size)] for _ in range(size)]
-    ori  = [[None for _ in range(size)] for _ in range(size)]
+    ori = [[None for _ in range(size)] for _ in range(size)]
     compat = compat_table(tiles)
 
     # 1) fix to-left corner (one of the 4 corners)
@@ -266,75 +273,74 @@ def backtrack(tiles: List[Tile]) -> np.array:
 
     for i in range(size):
         for j in range(size):
-            print(grid[i][j].tid, end='\t')
+            print(grid[i][j].tid, end="\t")
         print()
 
-    print('-' * 32)
+    print("-" * 32)
 
     for i in ori:
         for j in i:
-            print(j, end='\t')
+            print(j, end="\t")
         print()
 
-    with open(f'sol2_{sys.argv[1].split("/")[-1].split(".")[0]}.pkl', 'wb') as fp:
+    with open(f'sol2_{sys.argv[1].split("/")[-1].split(".")[0]}.pkl', "wb") as fp:
         pickle.dump((grid, ori), fp)
 
 
 def assemble(tiles):
-    with open(f'sol2_{sys.argv[1].split("/")[-1].split(".")[0]}.pkl', 'rb') as fp:
+    with open(f'sol2_{sys.argv[1].split("/")[-1].split(".")[0]}.pkl', "rb") as fp:
         grid, ori = pickle.load(fp)
 
     n = len(grid)
 
     for i in range(n):
         for j in range(n):
-            print(grid[i][j].tid, end='\t')
+            print(grid[i][j].tid, end="\t")
         print()
 
-    print('-' * 32)
+    print("-" * 32)
 
     for i in ori:
         for j in i:
-            print(j, end='\t')
+            print(j, end="\t")
         print()
 
-
-    final = np.chararray(shape=(10*n, 10*n))
+    final = np.chararray(shape=(10 * n, 10 * n))
 
     for i in range(n):
         for j in range(n):
             tile = np.array([list(x) for x in grid[i][j].raw])
 
-            if ori[i][j] == 'id':
+            if ori[i][j] == "id":
                 pass
-            elif ori[i][j] == 'rot1':
+            elif ori[i][j] == "rot1":
                 tile = np.rot90(tile, k=1)
-            elif ori[i][j] == 'rot2':
+            elif ori[i][j] == "rot2":
                 tile = np.rot90(tile, k=2)
-            elif ori[i][j] == 'rot3':
+            elif ori[i][j] == "rot3":
                 tile = np.rot90(tile, k=3)
-            elif ori[i][j] == 'fliplr':
+            elif ori[i][j] == "fliplr":
                 tile = np.fliplr(tile)
-            elif ori[i][j] == 'flipud':
+            elif ori[i][j] == "flipud":
                 tile = np.flipud(tile)
             else:
                 assert False
 
-            final[i*10:(i+1)*10, j*10:(j+1)*10] = tile
+            final[i * 10 : (i + 1) * 10, j * 10 : (j + 1) * 10] = tile
 
-
-    for i in range(10*n):
-        for j in range(10*n):
-            print(final[i,j].decode('utf8'), end='')
+    for i in range(10 * n):
+        for j in range(10 * n):
+            print(final[i, j].decode("utf8"), end="")
             if j % 10 == 9:
-                print(' ', end='')
+                print(" ", end="")
         if i % 10 == 9:
-            print('\n')
+            print("\n")
         print()
+
 
 if __name__ == "__main__":
     tiles = read_input(sys.argv[1])
 
     backtrack(tiles)
-    print('=' * 32)
+    print("=" * 32)
     assemble(tiles)

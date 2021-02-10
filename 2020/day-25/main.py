@@ -50,8 +50,8 @@ def sample_tests():
 
 
 if __name__ == "__main__":
-    with open(sys.argv[1], 'rt') as fp:
-        pkc, pkd = map(int, fp.read().strip().split('\n'))
+    with open(sys.argv[1], "rt") as fp:
+        pkc, pkd = map(int, fp.read().strip().split("\n"))
 
     sample_tests()
 
@@ -59,4 +59,4 @@ if __name__ == "__main__":
     lsd = find_loop_size(pkd, base=7)
     enc = modexp(base=pkc, exp=lsd)
     assert 1478097 == enc == modexp(base=pkd, exp=lsc)
-    print(f'Part 1: {enc}')
+    print(f"Part 1: {enc}")

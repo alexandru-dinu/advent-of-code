@@ -12,9 +12,9 @@ def get_difference_product(zs: set):
 
         xs.remove(adapter)
         diff = adapter - src
-        d1  += (diff == 1)
-        d3  += (diff == 3)
-        src  = adapter
+        d1 += diff == 1
+        d3 += diff == 3
+        src = adapter
 
     # + 1 for own device which always has a diff of 3
     return d1 * (d3 + 1)
@@ -55,18 +55,20 @@ def count_combinations(xs: set) -> int:
         # look back a window s.t. diff <= 3
         # add the number of ways to get there
         # explicitly verbose
-        num_ways[i] = num_ways[i-1] * (zs[i] - zs[i-1] <= 3) + \
-                      num_ways[i-2] * (zs[i] - zs[i-2] <= 3) + \
-                      num_ways[i-3] * (zs[i] - zs[i-3] <= 3)
+        num_ways[i] = (
+            num_ways[i - 1] * (zs[i] - zs[i - 1] <= 3)
+            + num_ways[i - 2] * (zs[i] - zs[i - 2] <= 3)
+            + num_ways[i - 3] * (zs[i] - zs[i - 3] <= 3)
+        )
 
     return num_ways[-1]
 
 
 if __name__ == "__main__":
-    with open(sys.argv[1], 'rt') as fp:
+    with open(sys.argv[1], "rt") as fp:
         xs = set([int(x.strip()) for x in fp.readlines()])
 
-    print(f'Part 1: {get_difference_product(xs)}')
-    print(f'Part 2: {count_combinations(xs)}')
+    print(f"Part 1: {get_difference_product(xs)}")
+    print(f"Part 2: {count_combinations(xs)}")
 
     # print(enumerate_combinations(xs))

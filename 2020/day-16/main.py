@@ -6,10 +6,10 @@ from typing import List
 
 
 def parse_constraint(s: str) -> tuple:
-    m = re.match(r'([\w ]+): (.+)', s)
+    m = re.match(r"([\w ]+): (.+)", s)
 
     name = m.group(1)
-    rs = [x.split('-') for x in m.group(2).split(' or ')]
+    rs = [x.split("-") for x in m.group(2).split(" or ")]
     rs = [(int(x[0]), int(x[1])) for x in rs]
 
     return name, rs
@@ -49,7 +49,8 @@ def get_ordered_fields(nearby: List[List[int]], cs: dict) -> List[str]:
 
     pool = sorted(
         [(i, __find_valid_fields(vs, cs)) for i, vs in enumerate(valid_nearby.T)],
-        key=lambda q: len(q[1]))
+        key=lambda q: len(q[1]),
+    )
 
     return backtrack(pool)
 
@@ -74,22 +75,22 @@ def backtrack(pool):
 
 
 if __name__ == "__main__":
-    with open(sys.argv[1], 'rt') as fp:
-        cs, my, nearby = fp.read().strip().split('\n\n')
+    with open(sys.argv[1], "rt") as fp:
+        cs, my, nearby = fp.read().strip().split("\n\n")
 
     # ticket = {field: value}
 
-    cs = dict(map(parse_constraint, cs.split('\n')))
-    my: List[int] = list(map(int, my.split('\n')[1].split(',')))
+    cs = dict(map(parse_constraint, cs.split("\n")))
+    my: List[int] = list(map(int, my.split("\n")[1].split(",")))
 
     nearby: List[List[int]] = [
-        list(map(int, t.split(','))) for t in nearby.split('\n')[1:]
+        list(map(int, t.split(","))) for t in nearby.split("\n")[1:]
     ]
 
     invalid_values = [get_invalid_values(t, cs) for t in nearby]
-    print(f'Part 1: {sum(chain(*invalid_values))}')
+    print(f"Part 1: {sum(chain(*invalid_values))}")
 
     # backtracking guided by sorting candidates by size
     ordered_fields = get_ordered_fields(nearby, cs)
-    dep_fields = [i for i, k in enumerate(ordered_fields) if k.startswith('departure')]
-    print(f'Part 2: {np.product([my[i] for i in dep_fields])}')
+    dep_fields = [i for i, k in enumerate(ordered_fields) if k.startswith("departure")]
+    print(f"Part 2: {np.product([my[i] for i in dep_fields])}")
