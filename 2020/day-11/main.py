@@ -1,6 +1,5 @@
 import sys
 from functools import partial
-from itertools import takewhile
 
 from functional import *
 

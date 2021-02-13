@@ -6,7 +6,7 @@ https://github.com/grey-area/aoc2020/blob/master/Day20/Day20_1.scala
 import sys
 import pickle
 import numpy as np
-from typing import List, Tuple, Set, Dict, NewType
+from typing import Dict, NewType, Set, Tuple
 from dataclasses import dataclass
 from itertools import chain
 

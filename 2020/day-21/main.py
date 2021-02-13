@@ -2,7 +2,6 @@ import sys
 import re
 from itertools import chain
 from collections import defaultdict, Counter
-from functools import reduce
 
 
 def backtrack(pool):

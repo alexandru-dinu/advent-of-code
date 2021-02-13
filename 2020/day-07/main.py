@@ -1,6 +1,5 @@
 import sys
 import re
-from typing import List
 from collections import defaultdict
 
 REGEX = re.compile(r"(\d) (\w+ \w+) (bags?)")
