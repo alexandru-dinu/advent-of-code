@@ -17,7 +17,7 @@ fn solve1(xs: &Vec<i32>) -> Option<i32> {
                     ans = Some(sxs[i] * sxs[j]);
                     break;
                 }
-            },
+            }
             Err(_) => continue,
         }
     }
@@ -34,14 +34,14 @@ fn solve2(xs: &Vec<i32>) -> Option<i32> {
     let mut ans: Option<i32> = None;
 
     for i in 0..n {
-        for j in (i+1)..n {
+        for j in (i + 1)..n {
             match sxs.binary_search(&(2020 - sxs[i] - sxs[j])) {
                 Ok(k) => {
                     if k != j {
                         ans = Some(sxs[i] * sxs[j] * sxs[k]);
                         break;
                     }
-                },
+                }
                 Err(_) => continue,
             }
         }
@@ -53,10 +53,11 @@ fn solve2(xs: &Vec<i32>) -> Option<i32> {
 fn main() {
     let input_file = env::args().nth(1).expect("Error with input file!");
     let input = fs::read_to_string(&input_file).unwrap();
-    let xs: Vec<i32> = input.split('\n')
-                  .filter(|x| !x.is_empty())
-                  .map(|x| x.parse::<i32>().unwrap())
-                  .collect();
+    let xs: Vec<i32> = input
+        .split('\n')
+        .filter(|x| !x.is_empty())
+        .map(|x| x.parse::<i32>().unwrap())
+        .collect();
 
     let ans1 = solve1(&xs).expect("No solution found!");
     let ans2 = solve2(&xs).expect("No solution found!");
