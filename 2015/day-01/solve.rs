@@ -1,3 +1,4 @@
+use std::env;
 use std::fs;
 use std::iter;
 
@@ -27,9 +28,11 @@ fn solve(s: &mut String) -> (i32, i32) {
 }
 
 fn main() {
-    let mut s: String = fs::read_to_string("in.txt").expect("DNE");
+    let input_file = env::args().nth(1).expect("Error with input file!");
+    let mut s: String = fs::read_to_string(&input_file).unwrap();
 
     let (res1, res2) = solve(&mut s);
 
-    println!("P1: {}\nP2: {}", res1, res2);
+    println!("Part 1: {}", res1);
+    println!("Part 2: {}", res2);
 }
