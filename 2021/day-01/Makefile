@@ -1,6 +1,6 @@
 INPUT=input
 
-all: python julia haskell
+all: python julia haskell R
 
 python: solve.py
 	python $^ $(INPUT)
@@ -10,3 +10,6 @@ julia: solve.jl
 
 haskell: solve.hs
 	runhaskell $^ $(INPUT)
+
+R: solve.r
+	Rscript $^ --args $(INPUT)
