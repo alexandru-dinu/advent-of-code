@@ -1,10 +1,11 @@
 # generic
 .vscode/
+*~
 
 # Rust
 **/target/
 Cargo.lock
-**/*.rs.bk
+*.rs.bk
 
 # Python
 *.py[cod]
@@ -18,3 +19,6 @@ __pycache__/
 # Haskell
 *.hi
 *.o
+
+# Idris
+*.ibc

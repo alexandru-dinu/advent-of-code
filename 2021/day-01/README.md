@@ -2,6 +2,10 @@
 
 ### Solution
 Array diff and 1D convolution.
+```
+Part 1: 1752
+Part 2: 1781
+```
 
 ### Usage
 ```
