@@ -1,0 +1,54 @@
+import sys
+import numpy as np
+import scipy.stats as stats
+
+
+def bin2int(xs) = xs.dot(1 << np.arange(xs.shape[-1])[::-1])
+
+
+def part1(xss):
+    # most common bit in the corresponding position of all numbers
+    f_gamma = x -> stats.mode(x, axis=0).mode
+
+    # least common bit in the corresponding position of all numbers
+    f_eps = x -> 1 - stats.mode(x, axis=0).mode
+
+    search_with = f -> (xss |> f |> bin2int |> .item())
+
+    return search_with(f_gamma) * search_with(f_eps)
+
+
+def part2(xss):
+
+    def _inner(xss, bin_freq_cmp, idx=0):
+        if len(xss) == 1:
+            return xss |> bin2int |> .item()
+
+        col = xss[:, idx]
+        _, freq = np.unique(col, return_counts=True)
+
+        return _inner(
+            xss[col == bin_freq_cmp(freq)],
+            bin_freq_cmp,
+            idx + 1
+        )
+
+    oxy = (f -> 1 if f[1] >= f[0] else 0) |> _inner$(xss)
+    co2 = (f -> 0 if f[0] <= f[1] else 1) |> _inner$(xss)
+
+    return oxy * co2
+
+
+def main():
+    xss = (
+        np.loadtxt(sys.argv[1], dtype=str)
+        |> map$(xs -> np.fromiter(xs, dtype=int))
+        |> np.stack
+    )
+
+    print("Part 1:", part1(xss))
+    print("Part 2:", part2(xss))
+
+
+if __name__ == "__main__":
+    main()
