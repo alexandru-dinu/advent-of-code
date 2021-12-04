@@ -3,12 +3,13 @@
 https://github.com/grey-area/aoc2020/blob/master/Day20/Day20_1.scala
 """
 
-import sys
 import pickle
-import numpy as np
-from typing import Dict, NewType, Set, Tuple
+import sys
 from dataclasses import dataclass
 from itertools import chain
+from typing import Dict, NewType, Set, Tuple
+
+import numpy as np
 
 
 @dataclass

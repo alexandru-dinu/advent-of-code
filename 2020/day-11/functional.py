@@ -1,4 +1,4 @@
-from itertools import accumulate, repeat, product
+from itertools import accumulate, product, repeat
 
 
 def no_change(prev, curr):

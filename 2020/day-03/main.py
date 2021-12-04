@@ -1,6 +1,6 @@
 import sys
-from typing import List
 from functools import reduce
+from typing import List
 
 TREE = "#"
 SPACE = "."

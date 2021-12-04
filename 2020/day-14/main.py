@@ -1,7 +1,6 @@
-import sys
 import re
-from typing import List, Callable
-
+import sys
+from typing import Callable, List
 
 mask_re = re.compile(r"mask = ([01X]+)")
 mem_re = re.compile(r"mem\[(\d+)\] = (\d+)")

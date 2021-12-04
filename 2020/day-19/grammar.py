@@ -1,5 +1,6 @@
-import sys
 import re
+import sys
+
 from lark import Lark
 
 

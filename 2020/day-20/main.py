@@ -1,9 +1,8 @@
-import sys
 import pickle
+import sys
+
 import numpy as np
-
 from assemble import GridT, Tile, all_transforms, get_chararray
-
 
 MONSTER = ["                  # ", "#    ##    ##    ###", " #  #  #  #  #  #   "]
 

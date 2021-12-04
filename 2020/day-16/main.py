@@ -1,8 +1,9 @@
-import sys
 import re
-import numpy as np
+import sys
 from itertools import chain
 from typing import List
+
+import numpy as np
 
 
 def parse_constraint(s: str) -> tuple:

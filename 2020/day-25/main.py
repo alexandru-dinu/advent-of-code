@@ -1,4 +1,5 @@
 import sys
+
 from sympy.ntheory.residue_ntheory import discrete_log
 
 

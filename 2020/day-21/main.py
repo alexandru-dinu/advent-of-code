@@ -1,7 +1,7 @@
-import sys
 import re
+import sys
+from collections import Counter, defaultdict
 from itertools import chain
-from collections import defaultdict, Counter
 
 
 def backtrack(pool):

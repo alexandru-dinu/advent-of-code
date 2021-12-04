@@ -1,6 +1,7 @@
-import numpy as np
-from typing import List, Tuple
 from dataclasses import dataclass
+from typing import List, Tuple
+
+import numpy as np
 
 N, W, S, E = range(4)
 

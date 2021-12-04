@@ -1,7 +1,6 @@
-import sys
 import re
+import sys
 from collections import namedtuple
-
 
 regex = re.compile(r"(\d+)(-)(\d+)( )([a-z])(: )([a-z]+)")
 Entry = namedtuple("Entry", ["lo", "hi", "char", "password"])

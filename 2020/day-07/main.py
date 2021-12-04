@@ -1,5 +1,5 @@
-import sys
 import re
+import sys
 from collections import defaultdict
 
 REGEX = re.compile(r"(\d) (\w+ \w+) (bags?)")

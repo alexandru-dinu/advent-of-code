@@ -1,11 +1,12 @@
-import sys
-import numpy as np
-from typing import List, Tuple, Set
-from itertools import combinations, product
-from collections import defaultdict
-from functools import reduce
 import operator
 import pickle
+import sys
+from collections import defaultdict
+from functools import reduce
+from itertools import combinations, product
+from typing import List, Set, Tuple
+
+import numpy as np
 
 N, W, S, E = range(4)
 

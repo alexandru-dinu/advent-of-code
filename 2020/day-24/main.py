@@ -1,6 +1,6 @@
 import sys
-from functools import reduce
 from collections import defaultdict
+from functools import reduce
 from itertools import chain
 
 # https://www.redblobgames.com/grids/hexagons/

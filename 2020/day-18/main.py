@@ -1,7 +1,6 @@
-import sys
 import re
+import sys
 from typing import Callable
-
 
 r_wse = re.compile(r"\s*")
 r_num = re.compile(r"^(\d+)$")

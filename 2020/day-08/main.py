@@ -1,5 +1,5 @@
 import sys
-from typing import List, Tuple, NewType
+from typing import List, NewType, Tuple
 
 InstructionType = NewType("InstructionType", Tuple[str, str])  # e.g. jmp +2
 CodeType = NewType("CodeType", List[InstructionType])
