@@ -1,0 +1,61 @@
+import re
+import sys
+from collections import namedtuple
+
+import numpy as np
+
+
+Bounds = namedtuple("Bounds", "x1 y1 x2 y2")
+
+
+def sign(x) = (x > 0) - (x < 0)
+
+
+def get_overlap(lines: list[Bounds], n: int) -> int:
+    """Returns the number of points at which `>= n` lines overlap."""
+    xmax = lines |> map$(.x2) |> max
+    ymax = lines |> map$(.y2) |> max
+
+    # overlap count for each point
+    grid = np.zeros((ymax + 1, xmax + 1), dtype=int)
+
+    # (-1,-1).(-1,+1)
+    # .......X.......
+    # (+1,-1).(+1,+1)
+    for l in lines:
+        dx = sign(l.x2 - l.x1)
+        dy = sign(l.y2 - l.y1)
+
+        rx = [l.x1] if dx == 0 else np.arange(l.x1, l.x2 + dx, dx)
+        ry = [l.y1] if dy == 0 else np.arange(l.y1, l.y2 + dy, dy)
+
+        grid[ry,rx] += 1
+
+    return (grid >= n).sum()
+
+
+def part1(lines) =
+    lines |> filter$(l -> l.x1 == l.x2 or l.y1 == l.y2) |> get_overlap$(n=2)
+
+
+def part2(lines) =
+    lines |> get_overlap$(n=2)
+
+
+def main():
+    line_regex = re.compile(r'(\d+),(\d+)\s+->\s+(\d+),(\d+)')
+
+    with open(sys.argv[1]) as fp:
+        lines = (
+            fp.readlines()
+            |> map$(l -> line_regex.match(l).groups())
+            |> map$(g -> Bounds(*map(int, g)))
+            |> list
+        )
+
+    print("Part 1:", part1(lines))
+    print("Part 2:", part2(lines))
+
+
+if __name__ == "__main__":
+    main()
