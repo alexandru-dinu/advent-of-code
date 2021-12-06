@@ -1,3 +1,5 @@
+## [Day 25: Combo Breaker](https://adventofcode.com/2020/day/25)
+
 ```
 find c, d (loop sizes) s.t.:
     7 ** c ≡ pkc (mod m)

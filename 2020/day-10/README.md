@@ -1,3 +1,5 @@
+## [Day 10: Adapter Array](https://adventofcode.com/2020/day/10)
+
 ```
               0, 1, 2, 3, 4, 5, ...
                     [--j--]  i
