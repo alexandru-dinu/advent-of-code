@@ -17,7 +17,7 @@ step [] = []
 step (x:xs) = updateAt 6 x $ xs ++ [x]
 
 
--- -- | Initial population -> Number of days -> Final population
+-- | Initial population -> Number of days -> Final population
 simulate :: [Int] -> Int -> Int
 simulate pop days = (sum . last . take (days + 1) . iterate step) initState
     where
