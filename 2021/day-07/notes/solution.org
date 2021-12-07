@@ -1,0 +1,47 @@
+#+TITLE: Advent of Code 2021 - Day 07
+#+OPTIONS: toc:nil
+#+LaTeX_CLASS_OPTIONS: [a4paper]
+
+* Part 1
+The score function is
+$$
+f(x) = \sum_{p \in P} |p - x|
+$$
+with
+$$
+f'(x) = \sum_{p \in P} \mathsf{sign}(x - p)
+$$
+
+Solving $f'(x) = 0$ requires that the count of $x > p$ to equal the count of $x < p$, which happens for $x = \mathsf{median}(P)$.
+
+* Part 2
+The score function is now
+$$
+f(x) = \sum_{p\in P} g(|p-x|), \ \ g(n) = \frac{n(n+1)}{2}
+$$
+
+We have
+\begin{align}
+    f'(x) &= \sum_{p \in P} \left(\frac12 + |p-x| \right) \cdot \mathsf{sign}(x - p)\\
+    &= \frac12 \sum_{p \in P}\mathsf{sign}(x-p) + \sum_{p \in P} |p-x|\cdot \mathsf{sign}(x-p)\\
+    &= \frac12 \sum_{p \in P}\mathsf{sign}(x-p) + \sum_{p \in P} (x-p)
+\end{align}
+
+Let $n= |P|$ and $S=\sum_{p \in P}p$, then:
+\begin{align}
+    f'(x) = x \cdot n - S + \frac12 \sum_{p\in P} \mathsf{sign}(x - p) &= 0 \\
+    x \cdot n + \frac12 \sum_{p\in P} \mathsf{sign}(x - p) &= S \\
+    x + \frac{1}{2n} \sum_{p\in P} \mathsf{sign}(x - p) &= \frac{S}{n} = \mathsf{mean}(S)
+\end{align}
+
+So we get:
+$$
+x = \mathsf{mean}(S) - \frac{1}{2n} \sum_{p\in P} \mathsf{sign}(x - p)
+$$
+
+Now, the second term is bounded in $\frac{1}{2n} [-n, n] = [-\frac12, \frac12]$, therefore we obtain the candidates:
+$$
+\boxed{\mathsf{mean}(S) - \frac12 \leq x \leq \mathsf{mean}(S) + \frac12}
+$$
+
+Finally, we plug the integer values into the score function and choose the one giving the smallest $f(x)$.
