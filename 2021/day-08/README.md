@@ -17,8 +17,11 @@ Part 2: 961734
 $ make
 ```
 
-### Notes
-There is a much simpler and clever solution (see this [Reddit post](https://www.reddit.com/r/adventofcode/comments/rbj87a/2021_day_8_solutions/hnoyy04/)).
+### Upsolving
+There is a much simpler and clever idea (see this [Reddit post](https://www.reddit.com/r/adventofcode/comments/rbj87a/2021_day_8_solutions/hnoyy04/)).
+```
+$ make haskell
+```
 
 Essentially, one can identify the digit by knowing three things:
 1. number of segments needed (e.g. `1: 2, 7: 3, 4: 4` etc.)
