@@ -25,7 +25,7 @@ def fold_all(grid: np.ndarray, inst: list[tuple[str, int]]) -> np.ndarray:
 
 def show(grid: np.ndarray) -> None:
     # use space instead of "." for readability
-    print("\n".join(map(lambda r: "".join(r), np.where(grid == 0, " ", "#"))))
+    print("\n".join(map(lambda r: "".join(r), np.where(grid == 0, " ", "█"))))
 
 
 def main():
