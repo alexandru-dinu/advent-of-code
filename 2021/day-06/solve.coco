@@ -4,10 +4,10 @@ from collections import Counter
 
 def step(x: int, n: int) -> int:
     """
-        cnt[k] = number of fish having timer == k
-
-    Returns the number of fish after `n` steps.
+    Returns the number of fish after `n` steps,
+    starting from a fish with initial timer of `x`.
     """
+    # cnt[k] = number of fish having timer == k
     cnt = Counter()
     cnt[x] += 1
 
