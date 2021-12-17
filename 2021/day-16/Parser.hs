@@ -12,7 +12,7 @@ data Packet
     | O Int Int [Packet] -- operator
     deriving (Show, Read)
 
-data Parser a =
+newtype Parser a =
     Parser { parseWith :: String -> [(a, String)] }
 
 instance Functor Parser where
@@ -31,10 +31,11 @@ instance Alternative Parser where
     p1 <|> p2 =
         Parser $ \s ->
             case parseWith p1 s of
-                [] -> parseWith p2 s
+                []  -> parseWith p2 s
                 res -> res
 
 -- | Parsing utils
+
 -- representation of a _failure_ parser
 -- note that this is different from pure []
 failure :: Parser a
@@ -42,10 +43,9 @@ failure = Parser $ \s -> []
 
 -- consume a char (move _cursor_ one pos the right)
 move :: Parser Char
-move =
-    Parser $ \case
-        [] -> []
-        (c:cs) -> [(c, cs)]
+move = Parser $ \case
+    []     -> []
+    (c:cs) -> [(c, cs)]
 
 -- char parser - match a char c
 charp :: Char -> Parser Char
@@ -53,12 +53,7 @@ charp c = fromPredicate (== c)
 
 -- construct a char parser from a predicate
 fromPredicate :: (Char -> Bool) -> Parser Char
-fromPredicate pred =
-    move >>=
-    (\c ->
-         if pred c
-             then return c
-             else failure)
+fromPredicate pred = move >>= (\c -> if pred c then return c else failure)
 
 -- (+) quantifier
 oneOrMore :: Parser a -> Parser [a]
@@ -71,7 +66,7 @@ zeroOrMore p = oneOrMore p <|> pure []
 exactly :: Int -> Parser a -> Parser [a]
 exactly 0 _ = pure []
 exactly n p = do
-    v <- p
+    v  <- p
     v' <- exactly (n - 1) p
     return (v : v')
 
@@ -81,60 +76,65 @@ bin2int = foldl (\acc x -> 2 * acc + x) 0 . map digitToInt
 takeintp :: Int -> Parser Int
 takeintp n = exactly n move >>= (return . bin2int)
 
-innerp :: Parser a -> String -> Parser [a]
-innerp p s =
-    case parseWith (oneOrMore p) s of
-        [(arr, "")] -> return arr
-        _ -> failure
+-- | Parse substring s with p
+innerp :: Parser a -> String -> Parser a
+innerp p s = case parseWith p s of
+    [(arr, "")] -> return arr
+    _ -> failure
 
--- | TODO: extremely ugly...
-typep :: Int -> (String -> Bool) -> Parser Int
+-- | Packet type parser
+-- | consume n chars -> convert to int -> apply predicate
+typep :: Int -> (Int -> Bool) -> Parser Int
 typep n pred = do
     s <- exactly n move
-    if pred s
-        then return (bin2int s)
-        else failure
+    let i = bin2int s
+    if pred i then return i else failure
 
--- | Packet parsing
+-- | Literal value parser
+-- | implements (1[01]{4})* (0[01]{4})
+litvalp :: Parser Int
+litvalp = go >>= (return . bin2int)
+  where
+    go :: Parser String
+    go = do
+        c  <- move
+        v  <- exactly 4 move
+        v' <- if c == '0' then pure [] else go
+        return (v ++ v')
+
+-- | Packet parser: try to parse each packet type,
+-- | finally consuming the trailing zeros.
 packetp :: Parser Packet
-packetp = zerop <|> onep <|> valuep
+packetp = do
+    pkt <- packetp'
+    zeroOrMore (charp '0')
+    return pkt
+
+packetp' :: Parser Packet
+packetp' = zerop <|> onep <|> valuep
 
 valuep :: Parser Packet
 valuep = do
     ver <- takeintp 3
-    typ <- typep 3 (== "100")
-    val <- valseqp
+    typ <- typep 3 (== 4)
+    val <- litvalp
     return $ V ver typ val
-  where
-    -- (1[01]{4})* (0[01]{4})
-    valseqp :: Parser Int
-    valseqp = go >>= (return . bin2int)
-      where
-        go :: Parser String
-        go = do
-            c <- move
-            v <- exactly 4 move
-            v' <-
-                if c == '0'
-                    then pure []
-                    else go
-            return (v ++ v')
 
 zerop :: Parser Packet
 zerop = do
     ver  <- takeintp 3
-    typ  <- typep 3 (/= "100")
+    typ  <- typep 3 (/= 4)
     _    <- charp '0'
     len  <- takeintp 15
     ss   <- exactly len move
-    kids <- innerp packetp ss
+    kids <- innerp (oneOrMore packetp') ss
     return $ O ver typ kids
 
 onep :: Parser Packet
 onep = do
     ver  <- takeintp 3
-    typ  <- typep 3 (/= "100")
+    typ  <- typep 3 (/= 4)
     _    <- charp '1'
     len  <- takeintp 11
-    kids <- exactly len packetp
+    kids <- exactly len packetp'
     return $ O ver typ kids
