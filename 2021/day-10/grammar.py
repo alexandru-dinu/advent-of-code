@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import sys
 
-from lark import Lark, UnexpectedCharacters, UnexpectedEOF
-
 from common import corrupt_score, incomplete_score
+from lark import Lark, UnexpectedCharacters, UnexpectedEOF
 
 grammar = """
     start: s

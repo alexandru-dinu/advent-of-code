@@ -56,7 +56,7 @@ def main(xs):
     b = np.log2(cs[0])  # model.intercept_
 
     tau = 1 / m
-    pred = lambda t: (2 ** b) * (2 ** (t / tau))
+    pred = lambda t: (2**b) * (2 ** (t / tau))
 
     print(f"Init pop: {int(2**b)}")
     print(f"Learned freq of doubling: {tau:.5f}")

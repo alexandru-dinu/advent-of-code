@@ -44,7 +44,7 @@ def part2(mem: dict, addr: int, val: int, mask: str) -> None:
     idx = [i for i, m in enumerate(mask) if m == "X"]
     nX = mask.count("X")
 
-    for i in range(2 ** nX):
+    for i in range(2**nX):
         repl = f"{i:b}".zfill(nX)
         addr_ = list(f"{addr:036b}")
         for j, r in zip(idx, repl):

@@ -1,4 +1,4 @@
-## [Day ](https://adventofcode.com/2021/day/)
+## [Day ](https://adventofcode.com/2022/day/)
 
 ### Solution
 ...

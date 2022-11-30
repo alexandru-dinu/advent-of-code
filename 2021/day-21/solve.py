@@ -19,8 +19,8 @@ def move(p):
 
 
 def part1(start1: int, start2: int) -> int:
-    score1 = move(p=lambda t: start1 + 9 * t ** 2 - 3 * t)
-    score2 = move(p=lambda t: start2 + 9 * t ** 2 + 6 * t)
+    score1 = move(p=lambda t: start1 + 9 * t**2 - 3 * t)
+    score2 = move(p=lambda t: start2 + 9 * t**2 + 6 * t)
     rolls = 0
 
     while True:
@@ -82,9 +82,9 @@ def part2_weighted(start1: int, start2: int) -> int:
 
     def inner(state: State, level: int = 0) -> tuple[int, int]:
         if state.s_cur >= 21:
-            return (1 / (27 ** level), 0)
+            return (1 / (27**level), 0)
         if state.s_oth >= 21:
-            return (0, 1 / (27 ** level))
+            return (0, 1 / (27**level))
         if (m := mem.get((state, level))) is not None:
             return m
 
@@ -102,7 +102,7 @@ def part2_weighted(start1: int, start2: int) -> int:
             cnt[1] += o
 
         # invariant
-        assert abs(sum(cnt) - 1 / (27 ** level)) <= 1e-5
+        assert abs(sum(cnt) - 1 / (27**level)) <= 1e-5
 
         mem[(state, level)] = cnt
         return cnt
