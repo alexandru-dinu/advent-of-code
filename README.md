@@ -10,7 +10,7 @@
 [![](https://img.shields.io/badge/2018-0%20stars-ef0f14)](./2018)
 [![](https://img.shields.io/badge/2017-0%20stars-ef0f14)](./2017)
 [![](https://img.shields.io/badge/2016-0%20stars-ef0f14)](./2016)
-[![](https://img.shields.io/badge/2015-2%20stars-c62917)](./2015)
+[![](https://img.shields.io/badge/2015-4%20stars-b53418)](./2015)
 <!-- end-year-badge -->
 
 ---
