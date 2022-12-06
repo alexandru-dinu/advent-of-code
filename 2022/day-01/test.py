@@ -1,7 +1,6 @@
 import hypothesis.strategies as st
-from hypothesis import given, settings
-
 import solve as S
+from hypothesis import given, settings
 
 
 @settings(max_examples=10_000)

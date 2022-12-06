@@ -1,6 +1,6 @@
 import sys
 
-TARGET = 23278925 # input
+TARGET = 23278925  # input
 # TARGET = 127      # sample
 
 
