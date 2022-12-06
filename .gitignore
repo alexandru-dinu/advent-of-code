@@ -1,3 +1,6 @@
+# be considerate: don't commit input files
+input*
+
 .vscode
 
 dist

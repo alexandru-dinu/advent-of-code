@@ -1,4 +1,4 @@
-IN=input/input.txt
+IN=input
 
 .PHONY: run
 

@@ -1,7 +1,7 @@
 import sys
 
-TARGET = 23278925  # input.txt
-# TARGET = 127      # sample.txt
+TARGET = 23278925 # input
+# TARGET = 127      # sample
 
 
 def contiguous_subset_sum(xs: list, target: int) -> list:
