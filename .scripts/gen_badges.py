@@ -58,7 +58,8 @@ def get_md_urls():
 
         s = data["members"][UID]["stars"]
 
-        t = sqrt(s / 50)  # sqrt(x) > x, for x in [0, 1], so we get to green faster
+        # t = sqrt(s / 50)  # sqrt(x) > x, for x in [0, 1], so we get to green faster
+        t = s / 50
         color = interp(args.color0, args.color1, t)
 
         badge = f"![]({MD_BADGE_URL.format(year=year, stars=s, color=color)})"
