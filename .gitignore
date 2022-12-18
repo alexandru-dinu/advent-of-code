@@ -2,6 +2,7 @@
 input*
 
 .vscode
+*.npy
 
 dist
 dist-*

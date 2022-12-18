@@ -108,6 +108,10 @@ def main():
     print("Part 1:", simulate(wind, num_iter=2022, use_cache=False)[-1])
     print("Part 2:", simulate(wind, num_iter=int(1e12), use_cache=True))
 
+    # import numpy as np
+    # tops = simulate(wind, num_iter=20_000, use_cache=False)
+    # np.save('tops_input_20k.npy', tops)
+
 
 if __name__ == "__main__":
     main()
