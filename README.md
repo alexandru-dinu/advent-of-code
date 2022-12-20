@@ -1,7 +1,7 @@
 # Advent of Code
 
 <!-- begin-year-badge -->
-[![](https://img.shields.io/badge/2022-36%20stars-5c6e1f)](./2022)
+[![](https://img.shields.io/badge/2022-38%20stars-54731f)](./2022)
 [![](https://img.shields.io/badge/2021-39%20stars-507620)](./2021)
 [![](https://img.shields.io/badge/2020-50%20stars-239323)](./2020)
 [![](https://img.shields.io/badge/2019-7%20stars-d22116)](./2019)
