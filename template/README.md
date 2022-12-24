@@ -1,4 +1,8 @@
-## [](https://adventofcode.com/2022/day/)
+---
+title: ...
+url: https://adventofcode.com/2022/day/
+tags: ...
+---
 
 ### Solution
 ...
