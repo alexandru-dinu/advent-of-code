@@ -1,4 +1,7 @@
-## [Day 9: Rope Bridge](https://adventofcode.com/2022/day/9)
+---
+title: "Day 9: Rope Bridge"
+url: https://adventofcode.com/2022/day/9
+---
 
 ### Solution
 ```

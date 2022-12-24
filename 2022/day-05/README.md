@@ -1,4 +1,7 @@
-## [Day 5: Supply Stacks](https://adventofcode.com/2022/day/5)
+---
+title: "Day 5: Supply Stacks"
+url: https://adventofcode.com/2022/day/5
+---
 
 ### Solution
 ```

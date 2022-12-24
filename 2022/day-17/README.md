@@ -1,4 +1,7 @@
-## [Day 17: Pyroclastic Flow](https://adventofcode.com/2022/day/17)
+---
+title: "Day 17: Pyroclastic Flow"
+url: https://adventofcode.com/2022/day/17
+---
 
 ### Solution
 ```

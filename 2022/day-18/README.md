@@ -1,4 +1,7 @@
-## [Day 18: Boiling Boulders](https://adventofcode.com/2022/day/18)
+---
+title: "Day 18: Boiling Boulders"
+url: https://adventofcode.com/2022/day/18
+---
 
 ### Solution
 ```

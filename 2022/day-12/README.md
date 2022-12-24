@@ -1,4 +1,7 @@
-## [Day 12: Hill Climbing Algorithm](https://adventofcode.com/2022/day/12)
+---
+title: "Day 12: Hill Climbing Algorithm"
+url: https://adventofcode.com/2022/day/12
+---
 
 ### Solution
 ```

@@ -1,4 +1,7 @@
-## [Day 23: Unstable Diffusion](https://adventofcode.com/2022/day/23)
+---
+title: "Day 23: Unstable Diffusion"
+url: https://adventofcode.com/2022/day/23
+---
 
 ### Solution
 ```

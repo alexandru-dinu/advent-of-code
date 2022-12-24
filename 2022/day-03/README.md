@@ -1,4 +1,7 @@
-## [Day 3: Rucksack Reorganization](https://adventofcode.com/2022/day/3)
+---
+title: "Day 3: Rucksack Reorganization"
+url: https://adventofcode.com/2022/day/3
+---
 
 ### Solution
 ```

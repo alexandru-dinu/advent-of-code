@@ -1,4 +1,7 @@
-## [Day 8: Treetop Tree House](https://adventofcode.com/2022/day/8)
+---
+title: "Day 8: Treetop Tree House"
+url: https://adventofcode.com/2022/day/8
+---
 
 ### Solution
 ```

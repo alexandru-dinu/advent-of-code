@@ -1,4 +1,7 @@
-## [Day 13: Distress Signal](https://adventofcode.com/2022/day/13)
+---
+title: "Day 13: Distress Signal"
+url: https://adventofcode.com/2022/day/13
+---
 
 ### Solution
 ```

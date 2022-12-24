@@ -1,4 +1,7 @@
-## [Day 20: Grove Positioning System](https://adventofcode.com/2022/day/20)
+---
+title: "Day 20: Grove Positioning System"
+url: https://adventofcode.com/2022/day/20
+---
 
 ### Solution
 ```
