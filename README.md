@@ -1,16 +1,21 @@
-# Advent of Code
+<h1 align="center">Advent of Code</h1>
 
+<p align="center">
 <!-- begin-year-badge -->
-[![](https://img.shields.io/badge/2022-50%20stars-239323)](./2022)
-[![](https://img.shields.io/badge/2021-39%20stars-507620)](./2021)
-[![](https://img.shields.io/badge/2020-50%20stars-239323)](./2020)
-[![](https://img.shields.io/badge/2019-7%20stars-d22116)](./2019)
-[![](https://img.shields.io/badge/2018-2%20stars-e71415)](./2018)
-[![](https://img.shields.io/badge/2017-4%20stars-df1a15)](./2017)
-[![](https://img.shields.io/badge/2016-2%20stars-e71415)](./2016)
-[![](https://img.shields.io/badge/2015-4%20stars-df1a15)](./2015)
+<a href="./2022"><img src="https://img.shields.io/badge/2022-50%20stars-239323"></img></a>
+<a href="./2021"><img src="https://img.shields.io/badge/2021-39%20stars-507620"></img></a>
+<a href="./2020"><img src="https://img.shields.io/badge/2020-50%20stars-239323"></img></a>
+<a href="./2019"><img src="https://img.shields.io/badge/2019-7%20stars-d22116"></img></a>
+<a href="./2018"><img src="https://img.shields.io/badge/2018-2%20stars-e71415"></img></a>
+<a href="./2017"><img src="https://img.shields.io/badge/2017-4%20stars-df1a15"></img></a>
+<a href="./2016"><img src="https://img.shields.io/badge/2016-2%20stars-e71415"></img></a>
+<a href="./2015"><img src="https://img.shields.io/badge/2015-4%20stars-df1a15"></img></a>
 <!-- end-year-badge -->
+</p>
 
----
-
-[![](./assets/aoc-2020.png)](./2020)
+<table border="0">
+    <tr>
+        <td><img src="./assets/aoc-2022.png"></img></td>
+        <td><img src="./assets/aoc-2020.png"></img></td>
+    </tr>
+</table>

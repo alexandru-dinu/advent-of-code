@@ -4,7 +4,6 @@ import argparse
 import json
 import os
 import time
-from math import sqrt
 
 import requests
 
@@ -62,30 +61,32 @@ def get_md_urls():
         t = s / 50
         color = interp(args.color0, args.color1, t)
 
-        badge = f"![]({MD_BADGE_URL.format(year=year, stars=s, color=color)})"
+        badge = (
+            f'<img src="{MD_BADGE_URL.format(year=year, stars=s, color=color)}"></img>'
+        )
         if args.link_to_dir:
-            badge = f"[{badge}](./{year})"
+            badge = f'<a href="./{year}">{badge}</a>'
 
-        out.append(badge)
+        out.append(badge + "\n")
 
     return out
 
 
 def main():
     with open(args.readme_path, "rt") as fp:
-        lines = [x.strip() for x in fp]
+        lines = fp.readlines()
 
     for i, line in enumerate(lines):
-        if line == DELIM_BEGIN:
+        if line.startswith(DELIM_BEGIN):
             start = i
-        elif line == DELIM_END:
+        elif line.startswith(DELIM_END):
             end = i
 
     out = lines[: start + 1] + get_md_urls() + lines[end:]
 
     with open(args.readme_path, "wt") as fp:
         for line in out:
-            fp.write(f"{line}\n")
+            fp.write(f"{line}")
 
     print(f"{args.readme_path} updated!")
 
