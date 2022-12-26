@@ -61,14 +61,15 @@ def move_blizzard(grid):
             x, y = z.real, z.imag
             x2, y2 = x, y
 
-            if c == "^":
-                y2 = y - 1 if y >= 2 else grid.h - 2
-            elif c == "v":
-                y2 = y + 1 if y < grid.h - 2 else 1
-            elif c == "<":
-                x2 = x - 1 if x >= 2 else grid.w - 2
-            elif c == ">":
-                x2 = x + 1 if x < grid.w - 2 else 1
+            match c:
+                case "^":
+                    y2 = y - 1 if y >= 2 else grid.h - 2
+                case "v":
+                    y2 = y + 1 if y < grid.h - 2 else 1
+                case "<":
+                    x2 = x - 1 if x >= 2 else grid.w - 2
+                case ">":
+                    x2 = x + 1 if x < grid.w - 2 else 1
 
             new.pos[complex(x2, y2)].append(c)
 
