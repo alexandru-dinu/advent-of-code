@@ -1,6 +1,7 @@
 ---
 title: "Day 21: Monkey Math"
 url: https://adventofcode.com/2022/day/21
+tags: parsing, eval, equation-solving
 ---
 
 ### Solution

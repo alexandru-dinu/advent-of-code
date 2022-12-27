@@ -1,6 +1,7 @@
 ---
 title: "Day 9: Rope Bridge"
 url: https://adventofcode.com/2022/day/9
+tags: 2d-sim, vec2
 ---
 
 ### Solution

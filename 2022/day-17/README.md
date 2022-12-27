@@ -1,6 +1,7 @@
 ---
 title: "Day 17: Pyroclastic Flow"
 url: https://adventofcode.com/2022/day/17
+tags: 2d-sim, cycle-detection
 ---
 
 ### Solution

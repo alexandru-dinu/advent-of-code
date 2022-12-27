@@ -1,6 +1,7 @@
 ---
 title: "Day 22: Monkey Map"
 url: https://adventofcode.com/2022/day/22
+tags: 2d-sim, 3d-sim
 ---
 
 ### Solution

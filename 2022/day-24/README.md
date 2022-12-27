@@ -1,7 +1,7 @@
 ---
 title: "Day 24: Blizzard Basin"
 url: https://adventofcode.com/2022/day/24
-tags: path-finding, A*, dynamic
+tags: path-finding, A\*, dynamic
 ---
 
 ### Solution

@@ -1,6 +1,7 @@
 ---
 title: "Day 12: Hill Climbing Algorithm"
 url: https://adventofcode.com/2022/day/12
+tags: path-finding, bfs
 ---
 
 ### Solution

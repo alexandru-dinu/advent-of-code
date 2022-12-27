@@ -1,6 +1,7 @@
 ---
 title: "Day 23: Unstable Diffusion"
 url: https://adventofcode.com/2022/day/23
+tags: cellular-automata
 ---
 
 ### Solution

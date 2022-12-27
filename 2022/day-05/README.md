@@ -1,6 +1,7 @@
 ---
 title: "Day 5: Supply Stacks"
 url: https://adventofcode.com/2022/day/5
+tags: parsing, stacks
 ---
 
 ### Solution

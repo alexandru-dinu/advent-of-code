@@ -1,6 +1,7 @@
 ---
 title: "Day 10: Cathode-Ray Tube"
 url: https://adventofcode.com/2022/day/10
+tags: cpu-sim
 ---
 
 ### Solution

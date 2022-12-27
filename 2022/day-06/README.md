@@ -1,6 +1,7 @@
 ---
 title: "Day 6: Tuning Trouble"
 url: https://adventofcode.com/2022/day/6
+tags: scan, stream
 ---
 
 ### Solution

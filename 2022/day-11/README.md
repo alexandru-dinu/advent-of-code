@@ -1,6 +1,7 @@
 ---
 title: "Day 11: Monkey in the Middle"
 url: https://adventofcode.com/2022/day/11
+tags: modular-arithmetic
 ---
 
 ### Solution

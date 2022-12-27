@@ -1,6 +1,7 @@
 ---
 title: "Day 3: Rucksack Reorganization"
 url: https://adventofcode.com/2022/day/3
+tags: sets
 ---
 
 ### Solution

@@ -1,6 +1,7 @@
 ---
 title: "Day 1: Calorie Counting"
 url: https://adventofcode.com/2022/day/1
+tags: partial-sort
 ---
 
 ### Solution

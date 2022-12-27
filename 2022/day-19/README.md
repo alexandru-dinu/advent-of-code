@@ -1,7 +1,7 @@
 ---
 title: "Day 19: Not Enough Minerals"
 url: https://adventofcode.com/2022/day/19
-tags: optimization, state-space search, pruning, heuristics
+tags: optimization, state-space-search, pruning, heuristics
 ---
 
 ### Solution

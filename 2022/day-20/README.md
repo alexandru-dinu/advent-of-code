@@ -1,6 +1,7 @@
 ---
 title: "Day 20: Grove Positioning System"
 url: https://adventofcode.com/2022/day/20
+tags: lists
 ---
 
 ### Solution

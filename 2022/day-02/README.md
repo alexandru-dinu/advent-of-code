@@ -1,6 +1,7 @@
 ---
 title: "Day 2: Rock Paper Scissors"
 url: https://adventofcode.com/2022/day/2
+tags: modular-arithmetic
 ---
 
 ### Solution

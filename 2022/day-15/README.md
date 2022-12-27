@@ -1,6 +1,7 @@
 ---
 title: "Day 15: Beacon Exclusion Zone"
 url: https://adventofcode.com/2022/day/15
+tags: searching, constraint-satisfaction
 ---
 
 ### Solution

@@ -1,6 +1,7 @@
 ---
 title: "Day 16: Proboscidea Volcanium"
 url: https://adventofcode.com/2022/day/16
+tags: state-space-search, optimization, dynamic-programming 
 ---
 
 ### Solution

@@ -1,6 +1,7 @@
 ---
 title: "Day 14: Regolith Reservoir"
 url: https://adventofcode.com/2022/day/14
+tags: 2d-sim, cellular-automata
 ---
 
 ### Solution

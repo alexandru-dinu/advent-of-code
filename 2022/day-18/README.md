@@ -1,6 +1,7 @@
 ---
 title: "Day 18: Boiling Boulders"
 url: https://adventofcode.com/2022/day/18
+tags: 3d, bfs
 ---
 
 ### Solution
