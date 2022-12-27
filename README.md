@@ -3,7 +3,7 @@
 <p align="center">
 <!-- begin-year-badge -->
 <a href="./2022"><img src="https://img.shields.io/badge/2022-50%20stars-239323"></img></a>
-<a href="./2021"><img src="https://img.shields.io/badge/2021-39%20stars-507620"></img></a>
+<a href="./2021"><img src="https://img.shields.io/badge/2021-40%20stars-4c7920"></img></a>
 <a href="./2020"><img src="https://img.shields.io/badge/2020-50%20stars-239323"></img></a>
 <a href="./2019"><img src="https://img.shields.io/badge/2019-7%20stars-d22116"></img></a>
 <a href="./2018"><img src="https://img.shields.io/badge/2018-2%20stars-e71415"></img></a>
