@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse
 from collections import Counter
 from itertools import takewhile
@@ -24,7 +26,8 @@ def main():
         tags = get_tags(get_frontmatter(f))
         fm.update(tags)
 
-    print(fm.most_common())
+    for k, v in fm.most_common():
+        print(f"{k:>32s}: {v}")
 
 
 if __name__ == "__main__":
