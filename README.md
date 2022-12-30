@@ -13,6 +13,13 @@
 <!-- end-year-badge -->
 </p>
 
+<p align="center">
+<a href="https://github.com/alexandru-dinu/advent-of-code/actions/workflows/tests.yml">
+    <img src="https://github.com/alexandru-dinu/advent-of-code/actions/workflows/tests.yml/badge.svg">
+    </img>
+</a>
+</p>
+
 <table border="0">
     <tr>
         <td><img src="./assets/aoc-2022.png"></img></td>
