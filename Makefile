@@ -1,3 +1,7 @@
+.PHONY: badges
+badges:
+	./.scripts/gen_badges.py --readme-path ./README.md --link-to-dir
+
 .PHONY: test
 test:
 	find . -name "*.py" \
