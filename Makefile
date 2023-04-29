@@ -1,6 +1,6 @@
 .PHONY: badges
 badges:
-	./.scripts/gen_badges.py --readme-path ./README.md --link-to-dir
+	source .scripts/.env && mdup -i README.md
 
 .PHONY: test
 test:

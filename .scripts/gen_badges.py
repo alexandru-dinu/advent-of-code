@@ -23,14 +23,13 @@ def interp(c0, c1, t):
     return rgb2hex(*[(1 - t) * x0[i] + t * x1[i] for i in range(3)])
 
 
+# cookie session (see browser tools)
 SID = os.getenv("AOC_SESSION")
 assert SID is not None
 
+# personal ID (see in AOC Settings)
 UID = os.getenv("AOC_UID")
 assert UID is not None
-
-DELIM_BEGIN = "<!-- begin-year-badge -->"
-DELIM_END = "<!-- end-year-badge -->"
 
 AOC_URL = "https://adventofcode.com/{year}/leaderboard/private/view/{uid}.json"
 HEADERS = {
@@ -40,11 +39,11 @@ COOKIES = {"session": SID}
 MD_BADGE_URL = "https://img.shields.io/badge/{year}-{stars}%20stars-{color}"
 
 
-def get_md_urls():
+def get_badge_urls():
     out = []
 
     for year in args.years:
-        print(f"Fetch data for {year=}")
+        # print(f"Fetch data for {year=}")
         res = requests.get(
             AOC_URL.format(year=year, uid=UID),
             headers=HEADERS,
@@ -67,43 +66,22 @@ def get_md_urls():
         if args.link_to_dir:
             badge = f'<a href="./{year}">{badge}</a>'
 
-        out.append(badge + "\n")
+        out.append(badge)
 
     return out
 
 
 def main():
-    with open(args.readme_path, "rt") as fp:
-        lines = fp.readlines()
-
-    for i, line in enumerate(lines):
-        if line.startswith(DELIM_BEGIN):
-            start = i
-        elif line.startswith(DELIM_END):
-            end = i
-
-    out = lines[: start + 1] + get_md_urls() + lines[end:]
-
-    with open(args.readme_path, "wt") as fp:
-        for line in out:
-            fp.write(f"{line}")
-
-    print(f"{args.readme_path} updated!")
-
+    for url in get_badge_urls():
+        print(url)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""
-        Generate badges with stars/year.
+        Generate badge URLs with stars/year.
         The badge color is interpolated with respect to the number of stars: from 0 to 50.
         """.strip(),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    parser.add_argument(
-        "--readme-path",
-        type=str,
-        default="./README.md",
-        help="Path to the README file to edit.",
     )
     parser.add_argument("--color0", type=str, default="ef0f14", help="Start color.")
     parser.add_argument("--color1", type=str, default="239323", help="End color.")

@@ -1,7 +1,7 @@
 <h1 align="center">Advent of Code</h1>
 
 <p align="center">
-<!-- begin-year-badge -->
+<!-- MDUP:BEG (RUN:./.scripts/gen_badges.py --link-to-dir) -->
 <a href="./2022"><img src="https://img.shields.io/badge/2022-50%20stars-239323"></img></a>
 <a href="./2021"><img src="https://img.shields.io/badge/2021-40%20stars-4c7920"></img></a>
 <a href="./2020"><img src="https://img.shields.io/badge/2020-50%20stars-239323"></img></a>
@@ -10,7 +10,7 @@
 <a href="./2017"><img src="https://img.shields.io/badge/2017-4%20stars-df1a15"></img></a>
 <a href="./2016"><img src="https://img.shields.io/badge/2016-2%20stars-e71415"></img></a>
 <a href="./2015"><img src="https://img.shields.io/badge/2015-4%20stars-df1a15"></img></a>
-<!-- end-year-badge -->
+<!-- MDUP:END -->
 </p>
 
 <p align="center">
