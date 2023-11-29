@@ -1,12 +1,8 @@
-from __future__ import annotations
-
 import re
-import sys
-from typing import *
 
 import numpy as np
 
-Instructions = List[Tuple[str, List[int]]]
+Instructions = list[tuple[str, list[int]]]
 
 
 def part1(inst: Instructions) -> int:
@@ -32,7 +28,7 @@ def main():
     r = r"(-?\d+)..(-?\d+)"
     r = re.compile(f"(on|off) x={r},y={r},z={r}")
 
-    with open(sys.argv[1]) as fp:
+    with open(0) as fp:
         inst = fp.read().strip().split("\n")
         inst = [r.match(x).groups() for x in inst]
         inst = [(z, list(map(int, zs))) for (z, *zs) in inst]

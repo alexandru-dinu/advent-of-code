@@ -1,4 +1,4 @@
 INPUT=input
 
-solve: solve.py
-	python $^ $(INPUT)
+py: solve.py
+	@cat $(INPUT) | python3 $^
