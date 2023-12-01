@@ -43,7 +43,6 @@ def get_badge_urls():
     out = []
 
     for year in args.years:
-        # print(f"Fetch data for {year=}")
         res = requests.get(
             AOC_URL.format(year=year, uid=UID),
             headers=HEADERS,
@@ -75,6 +74,7 @@ def main():
     for url in get_badge_urls():
         print(url)
 
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="""
@@ -89,7 +89,7 @@ if __name__ == "__main__":
         "--years",
         nargs="+",
         type=int,
-        default=list(range(2022, 2014, -1)),
+        default=list(range(2023, 2014, -1)),
         help="Years to fetch data from.",
     )
     parser.add_argument(
