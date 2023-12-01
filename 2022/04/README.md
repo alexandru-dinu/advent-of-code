@@ -7,7 +7,7 @@ tags: interval-overlap
 ### Solution
 ```
 Part 1: 532
-Part 1: 854
+Part 2: 854
 ```
 Straightforward interval overlap.
 
