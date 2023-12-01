@@ -23,7 +23,7 @@
 
 <table border="0">
     <tr>
-        <td><img src="./assets/aoc-2022.png"></img></td>
-        <td><img src="./assets/aoc-2020.png"></img></td>
+        <td><img src="./.assets/aoc-2022.png"></img></td>
+        <td><img src="./.assets/aoc-2020.png"></img></td>
     </tr>
 </table>
