@@ -1,6 +1,6 @@
 .PHONY: badges
 badges:
-	source .env && mdup -i README.md
+	source ./.env && mdup -i README.md
 
 .PHONY: test
 test:
