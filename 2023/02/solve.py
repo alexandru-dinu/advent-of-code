@@ -28,6 +28,16 @@ def part2(draws: dict) -> int:
     return sum(math.prod(dicttoolz.valmap(max, draw).values()) for draw in draws)
 
 
+def test_example():
+    from pathlib import Path
+
+    with open(Path(__file__).parent / "example") as fp:
+        draws = [parse_line(x.strip()) for x in fp]
+
+    assert part1(draws) == 8
+    assert part2(draws) == 2286
+
+
 def main():
     with open(0) as fp:
         draws = [parse_line(x.strip()) for x in fp]
