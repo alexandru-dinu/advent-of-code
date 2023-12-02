@@ -2,7 +2,6 @@ from copy import deepcopy
 
 import matplotlib.pyplot as plt
 import numpy as np
-
 from vec2 import Vec2
 
 UP = Vec2(0, 1)

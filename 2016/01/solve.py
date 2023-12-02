@@ -13,7 +13,7 @@ class Segment:
     end: Point
 
     def crosses(self, other):
-        for (s1, s2) in [(self, other), (other, self)]:
+        for s1, s2 in [(self, other), (other, self)]:
             x1, x2 = sorted([s1.start.x, s1.end.x])
             c1 = x1 < s2.start.x < x2
 

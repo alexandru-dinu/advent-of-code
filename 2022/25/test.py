@@ -1,6 +1,5 @@
 from hypothesis import given, settings
 from hypothesis import strategies as st
-
 from solve import Snafu
 
 DIGITS = list(Snafu.S2D.keys())

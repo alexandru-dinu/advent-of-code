@@ -34,7 +34,7 @@ def step(grid):
             if grid.pos.get((nz := grid.wrap(z + dz))) == ".":
                 will_move.add((z, nz))
 
-        for (z, nz) in will_move:
+        for z, nz in will_move:
             grid.pos[nz] = grid.pos[z]
             grid.pos[z] = "."
 

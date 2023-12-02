@@ -57,7 +57,7 @@ def get_diff_count(xs, ins_mat, n):
     """
     cnt = np.zeros(len(ins_mat), dtype=int)
 
-    for (i, j) in zip(xs[:-1], xs[1:]):
+    for i, j in zip(xs[:-1], xs[1:]):
         cnt += PairSim(i, j, ins_mat).step(n).elem_cnt
 
     # account for double counting middle elements

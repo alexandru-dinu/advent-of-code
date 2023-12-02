@@ -9,7 +9,7 @@ def execute_gen(lines):
     clk, x = 1, 1
     yield (clk, x)
 
-    for (op, *val) in map(lambda x: x.split(), lines):
+    for op, *val in map(lambda x: x.split(), lines):
         if op == "noop":
             clk += 1
 
@@ -41,7 +41,7 @@ def part1_alt(lines):
     def parse_input(lines):
         xs = [1]  # initial value of X
 
-        for (op, *val) in map(lambda x: x.split(), lines):
+        for op, *val in map(lambda x: x.split(), lines):
             if op == "noop":
                 xs.append(0)
             elif op == "addx":

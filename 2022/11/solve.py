@@ -46,7 +46,6 @@ def simulate(monkeys, num_rounds, div3, verbose=False):
     modulo = lcm(*[m.test for m in monkeys.values()])
 
     for r in trange(num_rounds, ascii=True):
-
         for i in monkeys.keys():
             m = monkeys[i]
             m.inspected += len(m.items)

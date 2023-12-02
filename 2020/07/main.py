@@ -20,8 +20,8 @@ def parse_line(x: str) -> tuple:
 def transpose(graph: dict) -> dict:
     t_graph = defaultdict(lambda: [])
 
-    for (src, dsts) in graph.items():
-        for (n, dst) in dsts:
+    for src, dsts in graph.items():
+        for n, dst in dsts:
             t_graph[dst].append((n, src))
 
     return t_graph
@@ -34,7 +34,7 @@ def count_parents(graph: dict, from_node: str) -> int:
         if not graph[node]:
             return
 
-        for (n, nxt) in graph[node]:
+        for n, nxt in graph[node]:
             acc.add(nxt)
             _inner(graph, nxt, acc)
 
@@ -55,7 +55,7 @@ def count_children(graph: dict, from_node: str) -> int:
         return 0
 
     s = 0
-    for (n, nxt) in graph[from_node]:
+    for n, nxt in graph[from_node]:
         s += n * (1 + count_children(graph, nxt))
 
     return s

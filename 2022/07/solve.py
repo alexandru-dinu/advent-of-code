@@ -50,7 +50,6 @@ def parse_tree(cmds: list[str]) -> Entry:
                 tree = tree.ls.get(workdir, None)
 
         elif c == "ls":
-
             while i < len(cmds) and not cmds[i].startswith("$"):
                 info, name = cmds[i].split()
                 i += 1

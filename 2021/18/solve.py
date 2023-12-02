@@ -134,7 +134,7 @@ def part1(exprs: [Pair]) -> int:
 
 def part2(exprs: [Pair]) -> int:
     mag = -1
-    for (i, j) in product(range(len(exprs)), repeat=2):
+    for i, j in product(range(len(exprs)), repeat=2):
         if i != j:
             mag = max(mag, magnitude(simplify(Pair(exprs[i], exprs[j]))))
 
