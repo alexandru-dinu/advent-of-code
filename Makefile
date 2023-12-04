@@ -1,3 +1,9 @@
+.PHONY: new
+new:
+	mkdir -p $(YEAR)
+	cp -r .template/ $(YEAR)/$(DAY)/
+	source ./.env && ./.scripts/get_input.sh $(YEAR) $(DAY) > $(YEAR)/$(DAY)/input
+
 .PHONY: badges
 badges:
 	source ./.env && mdup -i README.md
@@ -23,8 +29,8 @@ test:
 		-exec grep -l "def test_" {} \; \
 		-exec pytest -vv --hypothesis-show-statistics {} \;
 
-.PHONY: year
-year:
+.PHONY: run-year
+run-year:
 	@for d in $(shell seq -w 1 25); do \
 		$(MAKE) -C ./$(YEAR)/$$d || exit 1; \
 	done
