@@ -27,7 +27,7 @@ def main():
 
     for view in view_gen(xss):
         part1 += any(map(all, view))
-        part2 = max(part2, np.product([count_visible(mask) for mask in view]))
+        part2 = max(part2, np.prod([count_visible(mask) for mask in view]))
 
     print("Part 1:", part1)
     print("Part 2:", part2)

@@ -23,3 +23,8 @@ test:
 		-exec grep -l "def test_" {} \; \
 		-exec pytest -vv --hypothesis-show-statistics {} \;
 
+.PHONY: year
+year:
+	@for d in $(shell seq -w 1 25); do \
+		$(MAKE) -C ./$(YEAR)/$$d || exit 1; \
+	done

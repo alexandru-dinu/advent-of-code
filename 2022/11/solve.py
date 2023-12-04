@@ -63,7 +63,7 @@ def simulate(monkeys, num_rounds, div3, verbose=False):
 
 
 def top2(xs):
-    return np.product(sorted(xs.values(), reverse=True)[:2])
+    return np.prod(sorted(xs.values(), reverse=True)[:2])
 
 
 def main():

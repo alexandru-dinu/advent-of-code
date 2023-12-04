@@ -52,7 +52,7 @@ def simulate(wind: list[str], num_iter: int, use_cache=False) -> list[int]:
     mem = {}
     s_idx = w_idx = 0
 
-    for t in trange(num_iter):
+    for t in trange(num_iter, ascii=True):
         if use_cache:
             if (s_idx, w_idx) in mem:
                 # ~~~~~~~~~|---------| ... |---------|

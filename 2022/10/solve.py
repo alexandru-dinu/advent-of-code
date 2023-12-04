@@ -32,7 +32,7 @@ def part1(lines):
 
     for cyc in cycles:
         z = list(takewhile(lambda x: x[0] <= cyc, out))
-        signal_strength += np.product(z.pop())
+        signal_strength += np.prod(z.pop())
 
     return signal_strength
 

@@ -83,8 +83,8 @@ def dynamic_programming(
     # state = (time budget, current node, current valve states: 1 = openable)
     dp = np.zeros((time_budget, len(g.nodes), valve_states), dtype=np.uint32)
 
-    for t in trange(1, time_budget, position=0, leave=False):
-        for n, i in tqdm(node2idx.items(), position=1, leave=False):
+    for t in trange(1, time_budget, position=0, leave=False, ascii=True):
+        for n, i in tqdm(node2idx.items(), position=1, leave=False, ascii=True):
             for v in range(valve_states):
                 cur = dp[t, i, v]
                 # in one step we can do two actions:
