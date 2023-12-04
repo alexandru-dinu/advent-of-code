@@ -2,6 +2,7 @@ import re
 from collections import Counter
 from functools import reduce
 from itertools import starmap
+from typing import TextIO
 
 
 def parse(card) -> tuple:
@@ -33,19 +34,24 @@ def part2(cards):
     return sum(res.values())
 
 
-def solve(fp):
+def solve(fp: TextIO) -> tuple[int, int]:
     cards = [parse(x.strip()) for x in fp]
-    return sum(starmap(part1, cards)), part2(cards)
+
+    p1 = sum(starmap(part1, cards))
+    p2 = part2(cards)
+
+    return p1, p2
 
 
-def test_example():
+def test_example() -> None:
     with open("example") as fp:
         p1, p2 = solve(fp)
-        assert p1 == 13
-        assert p2 == 30
+
+    assert p1 == 13
+    assert p2 == 30
 
 
-def main():
+def main() -> None:
     with open(0) as fp:
         p1, p2 = solve(fp)
 
