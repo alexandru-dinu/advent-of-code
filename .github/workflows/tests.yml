@@ -16,8 +16,8 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install tests requirements
-        run: pip3 install -U pip pytest hypothesis
+      - name: Install python requirements
+        run: pip3 install -U -r python_requirements.txt
 
       - name: Run available tests
         run: make test
