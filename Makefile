@@ -19,15 +19,16 @@ clean:
 SRC_PY := $(shell find ./ -name "*.py")
 .PHONY: format-py
 format-py:
-	autoflake --remove-all-unused-imports -i $(SRC_PY)
-	isort $(SRC_PY)
-	black $(SRC_PY)
+	@autoflake --remove-all-unused-imports -i $(SRC_PY)
+	@isort $(SRC_PY)
+	@black $(SRC_PY)
 
+TEST_PY := $(shell find . -not -path '*/\.*' -name "*.py" -exec grep -l "def test_" {} \;)
 .PHONY: test
 test:
-	find . -name "*.py" \
-		-exec grep -l "def test_" {} \; \
-		-exec pytest -vv --hypothesis-show-statistics {} \;
+	@for f in $(TEST_PY); do \
+		pytest -vv --hypothesis-show-statistics $$f || exit 1; \
+	done
 
 .PHONY: run-year
 run-year:

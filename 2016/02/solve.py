@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from pathlib import Path
 from typing import TextIO
 
 
@@ -85,7 +86,7 @@ def solve(fp: TextIO) -> tuple[str, str]:
 
 
 def test_example() -> None:
-    with open("example") as fp:
+    with open(Path(__file__).parent / "example") as fp:
         p1, p2 = solve(fp)
 
     assert p1 == "1985"

@@ -2,6 +2,7 @@ import re
 from collections import Counter
 from functools import reduce
 from itertools import starmap
+from pathlib import Path
 from typing import TextIO
 
 
@@ -44,7 +45,7 @@ def solve(fp: TextIO) -> tuple[int, int]:
 
 
 def test_example() -> None:
-    with open("example") as fp:
+    with open(Path(__file__).parent / "example") as fp:
         p1, p2 = solve(fp)
 
     assert p1 == 13
