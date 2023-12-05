@@ -2,7 +2,7 @@
 
 <p align="center">
 <!-- MDUP:BEG (RUN:./.scripts/gen_badges.py --link-to-dir) -->
-<a href="./2023"><img src="https://img.shields.io/badge/2023-8%20stars-ce2416"></img></a>
+<a href="./2023"><img src="https://img.shields.io/badge/2023-10%20stars-c62917"></img></a>
 <a href="./2022"><img src="https://img.shields.io/badge/2022-50%20stars-239323"></img></a>
 <a href="./2021"><img src="https://img.shields.io/badge/2021-40%20stars-4c7920"></img></a>
 <a href="./2020"><img src="https://img.shields.io/badge/2020-50%20stars-239323"></img></a>
