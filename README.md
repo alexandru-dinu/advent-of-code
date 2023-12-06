@@ -7,7 +7,7 @@
 <a href="./2021"><img src="https://img.shields.io/badge/2021-40%20stars-4c7920"></img></a>
 <a href="./2020"><img src="https://img.shields.io/badge/2020-50%20stars-239323"></img></a>
 <a href="./2019"><img src="https://img.shields.io/badge/2019-7%20stars-d22116"></img></a>
-<a href="./2018"><img src="https://img.shields.io/badge/2018-2%20stars-e71415"></img></a>
+<a href="./2018"><img src="https://img.shields.io/badge/2018-4%20stars-df1a15"></img></a>
 <a href="./2017"><img src="https://img.shields.io/badge/2017-4%20stars-df1a15"></img></a>
 <a href="./2016"><img src="https://img.shields.io/badge/2016-4%20stars-df1a15"></img></a>
 <a href="./2015"><img src="https://img.shields.io/badge/2015-4%20stars-df1a15"></img></a>
