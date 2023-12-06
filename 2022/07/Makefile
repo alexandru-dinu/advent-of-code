@@ -15,3 +15,6 @@ rs-test: upsolve.rs
 	@./$@
 	@rm $@
 
+test: test.py solve.py
+	pytest -vv $<
+	$(MAKE) rs-test

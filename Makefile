@@ -23,11 +23,12 @@ format-py:
 	@isort $(SRC_PY)
 	@black $(SRC_PY)
 
-TEST_PY := $(shell find . -not -path '*/\.*' -name "*.py" -exec grep -l "def test_" {} \;)
+# find the parent dirs of the Makefiles with a `test` rule
+TEST_MK := $(shell find . -mindepth 2 -not -path '*/\.*' -name "Makefile" -exec grep -l "test:" {} \; | xargs -n 1 dirname)
 .PHONY: test
 test:
-	@for f in $(TEST_PY); do \
-		pytest -vv --hypothesis-show-statistics $$f || exit 1; \
+	@for mk in $(TEST_MK); do \
+		$(MAKE) -C $$mk test || exit 1; \
 	done
 
 .PHONY: run-year
