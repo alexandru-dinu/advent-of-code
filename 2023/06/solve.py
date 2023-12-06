@@ -5,7 +5,7 @@ from typing import TextIO
 
 from sympy import S, solveset, symbols
 
-X = symbols("x")
+X = symbols("X")
 
 
 def ineq(t: int, d: int) -> int:
