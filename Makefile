@@ -5,8 +5,8 @@ new:
 	source ./.env && ./.scripts/get_input.sh $(YEAR) $(DAY) > $(YEAR)/$(DAY)/input
 
 .PHONY: badges
-badges:
-	source ./.env && mdup -i README.md
+badges: README.md
+	source ./.env && mdup -i $< && sed -i '/`/d' $<
 
 .PHONY: clean
 clean:
