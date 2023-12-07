@@ -1,0 +1,64 @@
+from typing import TextIO
+import re
+
+PATTERN = re.compile(r'([^\[\]]+)|\[([\w+]+)\]')
+
+def get_inp(fp: TextIO) = fp.read().strip().split('\n')
+
+def supports_abba(ip: str):
+    def abba(x: str) = x[0] == x[-1] and x[1] == x[-2] and x[0] != x[1]
+
+    ret = False
+
+    for out, ins in ip |> PATTERN.findall:
+        ret |= out != '' and 1 == (out[i:i+4] |> abba for i in range(len(out) - 3)) |> sum
+        if ins != '' and (ins[i:i+4] |> abba for i in range(len(ins) - 3)) |> any:
+            return False
+
+    return ret
+
+
+def supports_ssl(ip: str):
+    """aba outside and corresponding bab inside"""
+
+    def explode(s) = {s[i:i+3] for i in range(len(s) - 2)}
+
+    outs = set()
+    inss = set()
+
+    for out, ins in ip |> PATTERN.findall:
+        [inss, outs][out != ''] |> .update((out or ins) |> explode)
+
+    for a, b, c in outs:
+        if a != c: continue
+        if f"{b}{a}{b}" in inss:
+            return True
+
+    return False
+
+
+def test_example():
+    assert supports_abba("abba[mnop]qrst")
+    assert not supports_abba("abcd[bddb]xyyx")
+    assert not supports_abba("aaaa[qwer]tyui")
+    assert supports_abba("ioxxoj[asdfgh]zxcvbn")
+
+    assert supports_ssl("aba[bab]xyz")
+    assert not supports_ssl("xyx[xyx]xyx")
+    assert supports_ssl("aaa[kek]eke")
+    assert supports_ssl("zazbz[bzb]cdb")
+
+
+def main():
+    with open(0) as fp:
+        ips = fp |> get_inp
+
+    p1 = ips |> map$supports_abba |> sum
+    p2 = ips |> map$supports_ssl |> sum
+
+    print(f"Part 1: {p1}")
+    print(f"Part 2: {p2}")
+
+
+if __name__ == "__main__":
+    main()
