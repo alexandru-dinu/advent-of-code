@@ -36,6 +36,7 @@ cabal.project.local~
 *.o
 # Byte-compiled / optimized / DLL files
 __pycache__/
+__coconut_cache__/
 *.py[cod]
 *$py.class
 

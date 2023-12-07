@@ -11,6 +11,7 @@ badges: README.md
 .PHONY: clean
 clean:
 	find . -name "__pycache__" -print0 | xargs -0 rm -rf
+	find . -name "__coconut_cache__" -print0 | xargs -0 rm -rf
 	find . -name ".hypothesis" -print0 | xargs -0 rm -rf
 	find . -name ".pytest_cache" -print0 | xargs -0 rm -rf
 	find . -name ".ipynb_checkpoints" -print0 | xargs -0 rm -rf

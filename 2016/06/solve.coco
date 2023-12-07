@@ -1,0 +1,31 @@
+from pathlib import Path
+from typing import TextIO
+from collections import Counter
+
+
+def get_inp(fp: TextIO) =
+    fp |> .readlines() |> fmap$(.strip()) |*> zip |> list
+
+
+def solve(xs, k) =
+    xs |> fmap$(Counter ..> .most_common() ..> .[k][0]) |> ''.join
+
+
+def test_example():
+    with open(Path(__file__).parent / "example") as fp:
+        xs = fp |> get_inp
+
+    assert "easter" == (xs |> solve$(k=0))
+    assert "advent" == (xs |> solve$(k=-1))
+
+
+def main():
+    with open(0) as fp:
+        xs = fp |> get_inp
+
+    print(f"Part 1: {xs |> solve$(k=0)}")
+    print(f"Part 2: {xs |> solve$(k=-1)}")
+
+
+if __name__ == "__main__":
+    main()
