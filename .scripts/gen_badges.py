@@ -36,43 +36,56 @@ HEADERS = {
     "User-Agent": "https://github.com/alexandru-dinu/advent-of-code/blob/main/.scripts/gen_badges.py"
 }
 COOKIES = {"session": SID}
-MD_BADGE_URL = "https://img.shields.io/badge/{year}-{stars}%20stars-{color}"
+YEAR_BADGE_FMT = (
+    "https://img.shields.io/badge/{year}-{stars}%20stars-{color}?style=flat-square"
+)
+TOTAL_BADGE_FMT = (
+    "https://img.shields.io/badge/stars-{stars}-{color}?style=for-the-badge"
+)
+NUM_YEARS = 2023 - 2015 + 1
 
 
-def get_badge_urls():
-    out = []
+def get_year_stars(year: int) -> int:
+    res = requests.get(
+        AOC_URL.format(year=year, uid=UID),
+        headers=HEADERS,
+        cookies=COOKIES,
+    )
+    assert res.status_code == 200
+    time.sleep(args.sleep_sec)
 
-    for year in args.years:
-        res = requests.get(
-            AOC_URL.format(year=year, uid=UID),
-            headers=HEADERS,
-            cookies=COOKIES,
-        )
-        assert res.status_code == 200
-        time.sleep(args.sleep_sec)
+    data = json.loads(res.text)
 
-        data = json.loads(res.text)
+    return data["members"][UID]["stars"]
 
-        s = data["members"][UID]["stars"]
 
-        # t = sqrt(s / 50)  # sqrt(x) > x, for x in [0, 1], so we get to green faster
-        t = s / 50
-        color = interp(args.color0, args.color1, t)
+def get_year_badge_url(year: int, stars: int) -> str:
+    # t = sqrt(stars / 50)  # sqrt(x) > x, for x in [0, 1], so we get to green faster
+    t = stars / 50
+    color = interp(args.color0, args.color1, t)
 
-        badge = (
-            f'<img src="{MD_BADGE_URL.format(year=year, stars=s, color=color)}"></img>'
-        )
-        if args.link_to_dir:
-            badge = f'<a href="./{year}">{badge}</a>'
+    badge = f'<img src="{YEAR_BADGE_FMT.format(year=year, stars=stars, color=color)}"></img>'
+    if args.link_to_dir:
+        badge = f'<a href="./{year}">{badge}</a>'
 
-        out.append(badge)
+    return badge
 
-    return out
+
+def get_total_badge_url(stars: int) -> str:
+    t = stars / (NUM_YEARS * 50)
+    color = interp(args.color0, args.color1, t)
+
+    return f'<a href="./README.md"><img src="{TOTAL_BADGE_FMT.format(stars=stars, color=color)}"></img></a>'
 
 
 def main():
-    for url in get_badge_urls():
-        print(url)
+    y2s = {y: get_year_stars(y) for y in args.years}
+
+    if args.total_only:
+        print(get_total_badge_url(sum(y2s.values())))
+    else:
+        for y, s in y2s.items():
+            print(get_year_badge_url(y, s))
 
 
 if __name__ == "__main__":
@@ -102,6 +115,11 @@ if __name__ == "__main__":
         "--link-to-dir",
         action="store_true",
         help="If given, will link the badge to the corresponding `./<year>` directory.",
+    )
+    parser.add_argument(
+        "--total-only",
+        action="store_true",
+        help="Just generate the total number of stars",
     )
     args = parser.parse_args()
 
