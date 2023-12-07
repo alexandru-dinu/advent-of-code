@@ -2,14 +2,14 @@ from pathlib import Path
 from typing import TextIO
 
 
-def solve(fp: TextIO) -> tuple[int, int]:
+def solve(fp: TextIO):
     p1 = ...
     p2 = ...
 
     return p1, p2
 
 
-def test_example() -> None:
+def test_example():
     with open(Path(__file__).parent / "example") as fp:
         p1, p2 = solve(fp)
 
@@ -17,7 +17,7 @@ def test_example() -> None:
     assert p2 == ...
 
 
-def main() -> None:
+def main():
     with open(0) as fp:
         p1, p2 = solve(fp)
 
