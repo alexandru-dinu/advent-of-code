@@ -1,12 +1,10 @@
-IN=input
+INPUT=input
 
-.PHONY: run
+run: Main.hs $(INPUT)
+	runhaskell $< $(INPUT)
 
-run: Main $(IN)
-	./$^ $(IN)
+format: Main.hs
+	hindent $^
 
-Main: Main.hs
-	ghc --make -dynamic -o $@ $^
-
-clean:
-	rm Main *.hi *.o
+lint: Main.hs
+	hlint $^
