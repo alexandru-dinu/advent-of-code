@@ -36,13 +36,16 @@ HEADERS = {
     "User-Agent": "https://github.com/alexandru-dinu/advent-of-code/blob/main/.scripts/gen_badges.py"
 }
 COOKIES = {"session": SID}
-YEAR_BADGE_FMT = (
-    "https://img.shields.io/badge/{year}-{stars}%20stars-{color}?style=flat-square"
-)
-TOTAL_BADGE_FMT = (
-    "https://img.shields.io/badge/stars-{stars}-{color}?style=for-the-badge"
-)
+STAR = "⭐"
 NUM_YEARS = 2023 - 2015 + 1
+
+
+def fmt_year_badge(year: int, stars: int, color: str) -> str:
+    return f"https://img.shields.io/badge/{year}-{stars}%20{STAR}-{color}?style=flat-square"
+
+
+def fmt_total_badge(stars: int, color: str) -> str:
+    return f"https://img.shields.io/badge/total-{stars}%20{STAR}-{color}?style=for-the-badge"
 
 
 def get_year_stars(year: int) -> int:
@@ -64,7 +67,7 @@ def get_year_badge_url(year: int, stars: int) -> str:
     t = stars / 50
     color = interp(args.color0, args.color1, t)
 
-    badge = f'<img src="{YEAR_BADGE_FMT.format(year=year, stars=stars, color=color)}"></img>'
+    badge = f'<img src="{fmt_year_badge(year,stars, color)}"></img>'
     if args.link_to_dir:
         badge = f'<a href="./{year}">{badge}</a>'
 
@@ -75,7 +78,9 @@ def get_total_badge_url(stars: int) -> str:
     t = stars / (NUM_YEARS * 50)
     color = interp(args.color0, args.color1, t)
 
-    return f'<a href="./README.md"><img src="{TOTAL_BADGE_FMT.format(stars=stars, color=color)}"></img></a>'
+    return (
+        f'<a href="./README.md"><img src="{fmt_total_badge(stars, color)}"></img></a>'
+    )
 
 
 def main():
