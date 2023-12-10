@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import colorsys
 import json
 import os
 import time
@@ -13,14 +14,10 @@ def rgb2hex(r, g, b):
     return f"{f(r):02x}{f(g):02x}{f(b):02x}"
 
 
-def hex2rgb(x):
-    return (int(x[:2], 16) / 255, int(x[2:4], 16) / 255, int(x[4:], 16) / 255)
-
-
-def interp(c0, c1, t):
-    x0 = hex2rgb(c0)
-    x1 = hex2rgb(c1)
-    return rgb2hex(*[(1 - t) * x0[i] + t * x1[i] for i in range(3)])
+def hsv_interp(t):
+    # 0 - 60 - 120
+    assert 0 <= t <= 1
+    return rgb2hex(*colorsys.hsv_to_rgb(h=t * 120 / 360, s=1, v=0.6))
 
 
 # cookie session (see browser tools)
@@ -63,9 +60,7 @@ def get_year_stars(year: int) -> int:
 
 
 def get_year_badge_url(year: int, stars: int) -> str:
-    # t = sqrt(stars / 50)  # sqrt(x) > x, for x in [0, 1], so we get to green faster
-    t = stars / 50
-    color = interp(args.color0, args.color1, t)
+    color = hsv_interp(stars / 50)
 
     badge = f'<img src="{fmt_year_badge(year,stars, color)}"></img>'
     if args.link_to_dir:
@@ -75,8 +70,7 @@ def get_year_badge_url(year: int, stars: int) -> str:
 
 
 def get_total_badge_url(stars: int) -> str:
-    t = stars / (NUM_YEARS * 50)
-    color = interp(args.color0, args.color1, t)
+    color = hsv_interp(stars / (NUM_YEARS * 50))
 
     return (
         f'<a href="./README.md"><img src="{fmt_total_badge(stars, color)}"></img></a>'
@@ -101,8 +95,6 @@ if __name__ == "__main__":
         """.strip(),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
-    parser.add_argument("--color0", type=str, default="ef0f14", help="Start color.")
-    parser.add_argument("--color1", type=str, default="239323", help="End color.")
     parser.add_argument(
         "--years",
         nargs="+",
