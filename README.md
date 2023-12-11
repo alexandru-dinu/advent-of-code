@@ -2,7 +2,7 @@
 
 <p align="center">
 <!-- MDUP:BEG (RUN:./.scripts/gen_badges.py --total-only) -->
-<a href="./README.md"><img src="https://img.shields.io/badge/total-204%20⭐-998b00?style=for-the-badge"></img></a>
+<a href="./README.md"><img src="https://img.shields.io/badge/total-206%20⭐-998c00?style=for-the-badge"></img></a>
 <!-- MDUP:END -->
 </p>
 
@@ -14,7 +14,7 @@
 <a href="./2020"><img src="https://img.shields.io/badge/2020-50%20⭐-009900?style=flat-square"></img></a>
 <a href="./2019"><img src="https://img.shields.io/badge/2019-8%20⭐-993100?style=flat-square"></img></a>
 <a href="./2018"><img src="https://img.shields.io/badge/2018-4%20⭐-991800?style=flat-square"></img></a>
-<a href="./2017"><img src="https://img.shields.io/badge/2017-4%20⭐-991800?style=flat-square"></img></a>
+<a href="./2017"><img src="https://img.shields.io/badge/2017-6%20⭐-992500?style=flat-square"></img></a>
 <a href="./2016"><img src="https://img.shields.io/badge/2016-14%20⭐-995600?style=flat-square"></img></a>
 <a href="./2015"><img src="https://img.shields.io/badge/2015-10%20⭐-993d00?style=flat-square"></img></a>
 <!-- MDUP:END -->

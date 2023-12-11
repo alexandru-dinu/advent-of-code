@@ -1,0 +1,28 @@
+from typing import TextIO
+from collections import Counter
+from itertools import combinations
+
+
+def no_anagrams(xs) =
+    xs |> combinations$(r=2) |> starmap$((x, y) -> Counter(x) != Counter(y)) |> all
+
+
+def solve(fp: TextIO):
+    xss = [line.split() for line in fp]
+
+    p1 = map(Counter, xss) |> map$(cnt -> max(cnt.values()) == 1) |> sum
+    p2 = xss |> map$(no_anagrams) |> sum
+
+    return p1, p2
+
+
+def main():
+    with open(0) as fp:
+        p1, p2 = solve(fp)
+
+    print(f"Part 1: {p1}")
+    print(f"Part 2: {p2}")
+
+
+if __name__ == "__main__":
+    main()
