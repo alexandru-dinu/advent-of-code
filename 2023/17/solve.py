@@ -70,9 +70,9 @@ def in_bounds(z, h, w):
     return 0 <= z.imag < h and 0 <= z.real < w
 
 
-def nei1(mat, cell):
+def nei1(mat, cell, max_fuel=3):
     """
-    Must move n <= 3 cells in the same direction.
+    Must move n <= `max_fuel` cells in the same direction.
     Reset when changing direction.
     """
     h, w = mat.shape
@@ -83,11 +83,14 @@ def nei1(mat, cell):
         if not in_bounds(nz, h, w):
             continue
 
-        if cell.ori is not None and cell.ori + dz == 0:
+        # can't go back
+        if cell.ori + dz == 0:
             continue
 
+        # different orientation, reset fuel
         if dz != cell.ori:
-            yield Cell(pos=nz, ori=dz, fuel=3)
+            yield Cell(pos=nz, ori=dz, fuel=max_fuel)
+        # same orientation, decrement fuel
         else:
             f = cell.fuel - 1
             if f == 0:
@@ -117,22 +120,7 @@ def nei2(mat, cell):
 
     # free to change direction
     else:
-        for dz in [-1, 1, 1j, -1j]:
-            nz = cell.pos + dz
-
-            if not in_bounds(nz, h, w):
-                continue
-
-            if cell.ori is not None and cell.ori + dz == 0:
-                continue
-
-            if dz != cell.ori:
-                yield Cell(pos=nz, ori=dz, fuel=10)
-            else:
-                f = cell.fuel - 1
-                if f == 0:
-                    continue
-                yield Cell(pos=nz, ori=dz, fuel=f)
+        yield from nei1(mat, cell, max_fuel=10)
 
 
 def plot(mat, path):
