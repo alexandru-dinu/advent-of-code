@@ -2,13 +2,13 @@
 
 <p align="center">
 <!-- MDUP:BEG (RUN:./.scripts/gen_badges.py --total-only) -->
-<a href="./README.md"><img src="https://img.shields.io/badge/total-225%20⭐-999900?style=for-the-badge"></img></a>
+<a href="./README.md"><img src="https://img.shields.io/badge/total-226%20⭐-989900?style=for-the-badge"></img></a>
 <!-- MDUP:END -->
 </p>
 
 <p align="center">
 <!-- MDUP:BEG (RUN:./.scripts/gen_badges.py --link-to-dir) -->
-<a href="./2023"><img src="https://img.shields.io/badge/2023-39%20⭐-439900?style=flat-square"></img></a>
+<a href="./2023"><img src="https://img.shields.io/badge/2023-40%20⭐-3d9900?style=flat-square"></img></a>
 <a href="./2022"><img src="https://img.shields.io/badge/2022-50%20⭐-009900?style=flat-square"></img></a>
 <a href="./2021"><img src="https://img.shields.io/badge/2021-42%20⭐-319900?style=flat-square"></img></a>
 <a href="./2020"><img src="https://img.shields.io/badge/2020-50%20⭐-009900?style=flat-square"></img></a>
