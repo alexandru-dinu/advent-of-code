@@ -26,7 +26,6 @@ def solve(fp: TextIO):
     xss = [list(map(int, line.split())) for line in fp.readlines()]
 
     p1 = sum(map(lambda xs: is_safe(np.diff(xs)), xss))
-    print("---")
     p2 = sum(map(try_safe, xss))
 
     return p1, p2

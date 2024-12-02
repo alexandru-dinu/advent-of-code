@@ -127,8 +127,7 @@ def parse_cube(cube: str) -> Cube:
     return Cube(list(map(np.array, [f0, f1, f2, f3, f4, f5])))
 
 
-def move(cube, insts):
-    ...
+def move(cube, insts): ...
 
 
 def main():

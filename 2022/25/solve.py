@@ -6,6 +6,7 @@
 SNAFU: 1=-0-2
 Decimal: 1*5**5 -2*5**4 -1*5**3 + 0*5**2 -1*5**1 +2*5**0 = 1747
 """
+
 from functools import reduce
 from itertools import zip_longest
 from operator import add
