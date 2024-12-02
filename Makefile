@@ -2,11 +2,11 @@
 new:
 	mkdir -p $(YEAR)
 	cp -r .template/ $(YEAR)/$(DAY)/
-	source ./.env && ./.scripts/get_input.sh $(YEAR) $(DAY) > $(YEAR)/$(DAY)/input
+	. ./.env && ./.scripts/get_input.sh $(YEAR) $(DAY) > $(YEAR)/$(DAY)/input
 
 .PHONY: badges
 badges: README.md
-	source ./.env && mdup -i $< && sed -i '/`/d' $<
+	. ./.env && mdup -i $< && sed -i '/`/d' $<
 
 .PHONY: clean
 clean:
