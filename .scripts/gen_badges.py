@@ -34,7 +34,8 @@ HEADERS = {
 }
 COOKIES = {"session": SID}
 STAR = "⭐"
-NUM_YEARS = 2023 - 2015 + 1
+YEARS = list(range(2024, 2014, -1))
+NUM_YEARS = len(YEARS)
 
 
 def fmt_year_badge(year: int, stars: int, color: str) -> str:
@@ -72,13 +73,11 @@ def get_year_badge_url(year: int, stars: int) -> str:
 def get_total_badge_url(stars: int) -> str:
     color = hsv_interp(stars / (NUM_YEARS * 50))
 
-    return (
-        f'<a href="./README.md"><img src="{fmt_total_badge(stars, color)}"></img></a>'
-    )
+    return f'<a href="./README.md"><img src="{fmt_total_badge(stars, color)}"></img></a>'
 
 
 def main():
-    y2s = {y: get_year_stars(y) for y in args.years}
+    y2s = {y: get_year_stars(y) for y in YEARS}
 
     if args.total_only:
         print(get_total_badge_url(sum(y2s.values())))
@@ -94,13 +93,6 @@ if __name__ == "__main__":
         The badge color is interpolated with respect to the number of stars: from 0 to 50.
         """.strip(),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-    )
-    parser.add_argument(
-        "--years",
-        nargs="+",
-        type=int,
-        default=list(range(2023, 2014, -1)),
-        help="Years to fetch data from.",
     )
     parser.add_argument(
         "--sleep-sec",
