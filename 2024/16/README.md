@@ -9,6 +9,8 @@ Part 1: DFS w/ cost tracking. Initially I stored only the position in a `cost` s
 
 Part 2: Once destination is reached, yield the current path and its cost. The caller will sort all these paths by cost ascending and return both the best cost and all nodes part of all paths with the best cost.
 
+*Edit post-solving:* Could've used a priority queue instead of a vanilla stack and instead of just yielding all paths, we can reset a `best_paths: list[list]` collection every time `best_cost` is updated and keep appending paths to it every time the same `cost == best_cost` is encountered.
+
 ### Usage
 ```
 $ make
