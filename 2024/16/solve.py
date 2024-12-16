@@ -2,16 +2,7 @@ from collections import defaultdict
 from pathlib import Path
 from typing import TextIO
 
-
-def recompose_path(parent, src):
-    path = [src]
-    cur = src
-
-    while (nxt := parent[src]) is not None:
-        path.append(nxt)
-        src = nxt
-
-    return path[::-1]
+from tqdm import tqdm
 
 
 def parse(fp: TextIO):
@@ -23,6 +14,22 @@ def parse(fp: TextIO):
     return grid, src[0]
 
 
+def recompose_path(parents, src, ori):
+    path = [(src, ori)]
+
+    while (nxt := parents[path[-1]]) is not None:
+        path.append(nxt)
+
+    path = path[::-1]
+
+    cost = 0
+    for (zn, dn), (zp, dp) in zip(path[1:], path):
+        assert abs(zn - zp) == 1
+        cost += 1 + (dn != dp) * 1000
+
+    return cost, path
+
+
 def dfs(grid, src):
     ori = 1j
     st = [(src, ori)]
@@ -30,17 +37,26 @@ def dfs(grid, src):
     cost = defaultdict(lambda: float("inf"))
     cost[(src, ori)] = 0
 
-    res = float("inf")
+    parents = defaultdict(lambda: None)
+    parents[(src, ori)] = None
+
+    best_cost = float("inf")
+    pbar = tqdm(desc="DFS")
 
     while st:
         cur, ori = st.pop()
         cur_cost = cost[(cur, ori)]
 
         if grid.get(cur) == "E":
-            print(">>> FOUND", cur_cost)
-            res = min(res, cur_cost)
-            # print('\tPATH:', recompose_path(parent, cur))
-            # print(cost)
+            best_cost = min(best_cost, cur_cost)
+            _cost, _path = recompose_path(parents, cur, ori)
+            assert _cost == cur_cost
+
+            pbar.update(1)
+            pbar.set_description(f"{best_cost=}")
+
+            yield _cost, _path
+
             continue
 
         for new_ori in [ori, ori * 1j, ori * (-1j)]:
@@ -54,23 +70,29 @@ def dfs(grid, src):
             if new_cost <= cost[(nxt, new_ori)]:
                 cost[(nxt, new_ori)] = new_cost
                 st.append((nxt, new_ori))
-
-    return res
+                parents[(nxt, new_ori)] = (cur, ori)
 
 
 def solve(grid, src):
-    p1 = dfs(grid, src)
-    p2 = ...
+    paths = sorted(dfs(grid, src), key=lambda kv: kv[0])
+    best_cost = paths[0][0]
+
+    p1 = best_cost
+    p2 = len(set(sum(([p[0] for p in ps] for c, ps in paths if c == best_cost), [])))
 
     return p1, p2
 
 
 def test_example():
     with open(Path(__file__).parent / "example1") as fp:
-        assert 7036 == dfs(*parse(fp))
+        p1, p2 = solve(*parse(fp))
+        assert 7036 == p1
+        assert 45 == p2
 
     with open(Path(__file__).parent / "example2") as fp:
-        assert 11048 == dfs(*parse(fp))
+        p1, p2 = solve(*parse(fp))
+        assert 11048 == p1
+        assert 64 == p2
 
 
 def main():
