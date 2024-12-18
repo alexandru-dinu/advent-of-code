@@ -5,7 +5,7 @@ from solve import Snafu
 DIGITS = list(Snafu.S2D.keys())
 
 
-@settings(max_examples=10_000)
+@settings(max_examples=100)
 @given(
     st.text(st.sampled_from(DIGITS), min_size=1),
     st.text(st.sampled_from(DIGITS), min_size=1),

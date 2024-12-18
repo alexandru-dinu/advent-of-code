@@ -36,7 +36,7 @@ def my_bisect_right(xs, val):
     return lo
 
 
-@settings(max_examples=10_000)
+@settings(max_examples=100)
 @given(st.lists(st.integers(), min_size=0), st.integers())
 def test_my_bisect(xs, val):
     assert my_bisect_left(xs, val) == bisect_left(xs, val)

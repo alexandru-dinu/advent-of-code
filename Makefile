@@ -25,7 +25,7 @@ format-py:
 	@black $(SRC_PY)
 
 # find the parent dirs of the Makefiles with a `test` rule
-TEST_MK := $(shell find . -mindepth 2 -not -path '*/\.*' -name "Makefile" -exec grep -l "test:" {} \; | xargs -n 1 dirname)
+TEST_MK := $(shell find . -mindepth 2 -not -path '*/\.*' -name "Makefile" -exec grep -l "^test:" {} \; | xargs -n 1 dirname)
 .PHONY: test
 test:
 	@for mk in $(TEST_MK); do \
