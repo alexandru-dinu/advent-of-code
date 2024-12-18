@@ -5,7 +5,9 @@ tags: pathfinding
 ---
 
 ### Solution
-Vanilla A*. For part 2, iteratively add more obstacles until no path can be found.
+BFS / vanilla A*. For part 2, iteratively add more obstacles until no path can be found.
+
+*Edit post-solving:* part 2 can be solved using binary search.
 
 ### Usage
 ```
