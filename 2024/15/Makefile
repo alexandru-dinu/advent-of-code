@@ -4,6 +4,6 @@ INPUT=input
 solve: solve.py
 	python3 $^
 
-# .PHONY: test
-# test: solve.py
-# 	pytest -vv $^
+.PHONY: test
+test: solve.py
+	pytest -vv $^

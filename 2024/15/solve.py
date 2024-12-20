@@ -1,6 +1,11 @@
+from collections import deque
 from copy import deepcopy
 from pathlib import Path
 from typing import TextIO
+
+from tqdm import tqdm
+
+DEBUG = False
 
 
 def parse(fp: TextIO):
@@ -26,7 +31,7 @@ def debug(grid, pos):
             if z == pos:
                 row += "@"
             else:
-                row += grid[z]
+                row += str(grid[z])
 
         out.append(row)
 
@@ -70,15 +75,17 @@ def solve1(grid, instr):
 def solve2(grid, instr):
     # enlarge the grid
     grid2 = {}
+    ties = {}
     for z, x in grid.items():
         z = complex(z.real, 2 * z.imag)
         match x:
             case "." | "#":
-                grid2[z] = x
-                grid2[z + 1j] = x
+                grid2[z] = grid2[z + 1j] = x
             case "O":
                 grid2[z] = "["
                 grid2[z + 1j] = "]"
+                ties[z] = z + 1j
+                ties[z + 1j] = z
             case "@":
                 grid2[z] = x
                 grid2[z + 1j] = "."
@@ -89,43 +96,78 @@ def solve2(grid, instr):
 
     cur = min(k for k, c in grid.items() if c == "@")
     grid[cur] = "."  # no need to save the actual robot on the grid
-    debug(grid, cur)
 
-    # TODO: shall we work on the original grid (not twice as wide?)
+    def get_box_ensemble(pos, ori):
+        ens = set()
+        q = deque([pos])
 
-    for step, ori in enumerate(instr, start=1):
+        while q:
+            cur = q.popleft()
+
+            nxt = cur + ori
+            if grid[nxt] == "#":
+                return None  # reached an obstacle, can't move
+
+            """
+             @  (moving down)
+            []
+            .[]
+            []
+            ###
+            """
+            if grid[nxt] == ".":
+                continue
+
+            assert grid[nxt] in "[]"
+            q.append(nxt)
+            ens.add(nxt)
+
+            if grid[nxt] == "[":
+                assert grid[p := (nxt + 1j)] == "]", (nxt, p)
+                if p not in ens:
+                    q.append(p)
+                    ens.add(p)
+
+            if grid[nxt] == "]":
+                assert grid[p := (nxt - 1j)] == "[", (p, nxt)
+                if p not in ens:
+                    q.append(p)
+                    ens.add(p)
+
+        return ens
+
+    for step, ori in tqdm(enumerate(instr, start=1), disable=DEBUG, total=len(instr)):
+        if DEBUG:
+            debug(grid, cur)
+            input(f"[{step-1=}/{len(instr)}][{ori=}] >>>")
+
         nxt = cur + ori
         if nxt not in grid or grid[nxt] == "#":
             continue
         if grid[nxt] == ".":
             cur = nxt
         else:
-            print('???', nxt)
-            # try to move on a box, should push it/them as far as possible IF possible
             assert grid[nxt] in "[]"
 
-            # find where the run of boxes terminates
-            j = nxt
-            while grid[j] in "[]":
-                j += ori
-
-            # can't move b/c all the boxes lead to a wall
-            if grid[j] == "#":
+            ens = get_box_ensemble(cur, ori)
+            if not ens:
                 continue
 
-            assert grid[j] == "."
-            for k in range(int(abs(j - nxt)), -1, -1):
-                grid[nxt+k*ori] = grid[nxt + (k-1) * ori]
-            grid[cur] = '.'
+            if DEBUG:
+                print(f"{ens=}")
+            grid_ = deepcopy(grid)
+            for p in ens:
+                grid_[p] = "."
+            for p in ens:
+                grid_[p + ori] = grid[p]
+            grid = grid_
             cur = nxt
 
-        debug(grid, cur)
-        input(f'[{step=}][{ori=}] >>>')
-
+    debug(grid, cur)
     return int(sum(100 * z.real + z.imag for z, x in grid.items() if x == "["))
 
 
-def _test_example():
+def test_example():
     with open(Path(__file__).parent / "example") as fp:
         grid, instr = parse(fp)
 
@@ -137,7 +179,7 @@ def _test_example():
 
 
 def main():
-    with open(Path(__file__).parent / "example2") as fp:
+    with open(Path(__file__).parent / "input") as fp:
         grid, instr = parse(fp)
 
     p1 = solve1(deepcopy(grid), instr)
