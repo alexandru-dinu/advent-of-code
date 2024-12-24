@@ -1,6 +1,7 @@
-coconut
 PyYAML
 Requests
+bidict
+coconut
 hypothesis
 lark
 matplotlib
@@ -8,6 +9,7 @@ networkx
 numpy
 pandas
 pytest
+rich
 scikit_learn
 sympy
 toolz
